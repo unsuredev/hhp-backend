@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "rootDir": "./src/",
+    "outDir": "./dist/",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": false,
+    "inlineSources": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "lib": ["es2020"],
+    "paths": {
+      "*": ["*", "./@types/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./@types","./src/types"]
+  },
+  "include": ["./src", "src/routes/.routes..ts"],
+  "exclude": ["node_modules"]
+}
