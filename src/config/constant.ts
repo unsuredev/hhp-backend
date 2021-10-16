@@ -15,7 +15,7 @@ export const NO_BODY_URLS: string[] = ['/test', '/user/delete',
 
 
 export const BYPASS_URLS: string[] = [ '/test', '/user/delete',
-    '/user/add', '/user/login', '/user/resetPassword',  '/test', '/agent/add','/customer/add',
+    '/user/add', '/user/login', '/user/resetPassword',  '/test', '/agent/add','/customer/add' ,'/customer/uploadimages',
    '/favicon.ico',  '/user/verifyEmail',
     '/user/sendResetPasswordLink' ];
 export const No_ENCRYPT_RESP_URLS: string[] = [];
@@ -33,6 +33,8 @@ export const LINK_TYPE_EMAIL_VERIFY:string = process.env.SWAGGER_USERNAME||""
 export const API_VERSION: string = "/v1";
 
 
+export const AWS_BUCKET_NAME: string =
+  process.env.AWS_BUCKET_NAME || 'jamanhpgas'
 
 
 export const API_ERROR_CODES = {

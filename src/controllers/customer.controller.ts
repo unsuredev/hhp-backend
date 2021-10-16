@@ -197,23 +197,23 @@ export class CustomerController extends BaseController {
 
   uploadUserPhoto = async (req: Request, res: Response, next: Next) => {
     try {
-      const mainAadhaar = req.body
       // @ts-ignore
       if (req.file && req.file.s3_url) {
         // @ts-ignore
         const ImageUrl = req.file.s3_url
-        const result = await this.customerService.uploadUserPhoto(mainAadhaar, ImageUrl)
+        //@ts-ignore
+        const aadhaar= req.body
+        const result = await this.customerService.uploadUserPhoto( aadhaar ,ImageUrl)
         // @ts-ignore
         return res.status(200).json({
           status: 'success',
-          message: 'customer image added successfully',
+          message: 'Customer photo uploaded successfully!',
           // @ts-ignore
           data: { image_url: req.file.s3_url }
         })
       }
       // @ts-ignore
       if (req.file.cloudStorageError) {
-        console.log(`Error is saving user profile photo`)
         return res.status(400).json({
           status: 'failed',
           message: 'file uploading failed',
@@ -221,7 +221,7 @@ export class CustomerController extends BaseController {
         })
       }
     } catch (error) {
-      console.log("error" , error)
+
       return res.status(400).json(
         this.ERR(
           {
@@ -234,7 +234,6 @@ export class CustomerController extends BaseController {
       )
     }
   }
-
 
 
 

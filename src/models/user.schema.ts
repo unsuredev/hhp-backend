@@ -70,9 +70,6 @@ const userSchema = new Schema({
     access_token: {
         type: String,
     },
-    profile_photo_url: {
-        type: String
-    }
 }, {timestamps: true});
 
 userSchema.pre("save", function (next) {

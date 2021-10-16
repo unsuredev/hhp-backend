@@ -190,12 +190,25 @@ export class CustomerService extends BaseService {
   }
 
 
-  uploadUserPhoto = async (mainAadhaar, Url) => {
+  uploadUserPhoto = async (data, url) => {
     try {
-    const result=  await db.Users.findOneAndUpdate({ "mainAadhaar":mainAadhaar }, { deliveryPhoto:Url })
-    return this.RESP("success","Photo uploaded successfuly" ,result)
+      const { photo_key } = data
+      const result = await db.Customers.findOne({ "mainAadhaar": data.mainAadhaar }, { new: true });
+      const query = { "_id": result._id }
+      const option = { new: true }
+      if (photo_key === "InstalationLetter") {
+        await db.Customers.findOneAndUpdate(query, { $set: { InstalationLetter: url } }, option);
+      }
+      else if (photo_key === "satisfactionLetter") {
+        await db.Customers.findOneAndUpdate(query, { $set: { satisfactionLetter: url } }, option);
+      }
+      else {
+        await db.Customers.findOneAndUpdate(query, { $set: { otherLetter: url } }, option);
+      }
+      return this.RESP("success", "Customer photo uploaded successfully");
     } catch (error) {
-      throw error
+      console.log("error", error)
+      throw error;
     }
-  }
+  };
 }

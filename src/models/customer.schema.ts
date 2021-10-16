@@ -64,6 +64,18 @@ const CustomerSchema = new Schema(
       type: String,
       trim: true,
     },
+    satisfactionLetter:{
+      type: String,
+      required: false,
+    },
+    InstalationLetter:{
+      type: String,
+      required: false,
+    },
+    otherLetter:{
+      type: String,
+      required: false,
+    }
   },
   { timestamps: {} }
 );

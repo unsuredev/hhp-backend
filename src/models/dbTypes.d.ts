@@ -26,7 +26,9 @@ export interface IUser extends Document {
     active:boolean;
     mobile_type: string;
     access_token: string;
-    profile_photo_url: string;
+    InstalationLetter:string;
+    satisfactionLetter:string;
+    otherLetter:string;
 }
 
 
