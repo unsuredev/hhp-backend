@@ -1,5 +1,5 @@
 {
-    "name": "ghp-backend-server",
+    "name": "hhp-backend-server",
     "version": "1.0.0",
     "main": "app.js",
     "license": "MIT",
@@ -75,7 +75,7 @@
     "scripts": {
         "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\"",
         "build": "tsc ",
-        "start": "tsc  && node ./dist/index.js",
+        "start": "tsc  && NODE_OPTIONS =--max-old-space-size=8192 &&  node ./dist/index.js",
         "start-prod": "node ./dist/index.js",
         "clean": "rimraf dist",
         "predev": "npm run clean ",

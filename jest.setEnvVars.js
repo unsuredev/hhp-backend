@@ -8,4 +8,3 @@ process.env.REDIS_HOST="localhost"
 process.env.REDIS_PORT=6379
 process.env.SKIP="YES"
 process.env.SMART_PLATFORM_AES_KEY="MTAxMzk0X3NtaXRjaF9hcHA="
-process.env.GA_SERVICE_ACCOUNT_PATH="../config/json/Smitch-Home-Test-f0b806ae7672.json"
