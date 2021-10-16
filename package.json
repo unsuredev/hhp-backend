@@ -75,7 +75,7 @@
     "scripts": {
         "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\"",
         "build": "tsc ",
-        "start": "tsc  && NODE_OPTIONS =--max-old-space-size=8192 &&  node ./dist/index.js",
+        "start": "tsc  &&  node ./dist/index.js",
         "start-prod": "node ./dist/index.js",
         "clean": "rimraf dist",
         "predev": "npm run clean ",
