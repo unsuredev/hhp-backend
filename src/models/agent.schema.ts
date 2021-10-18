@@ -1,5 +1,4 @@
 import { Schema, SchemaOptions } from "mongoose";
-import { date, number, object } from "@hapi/joi";
 
 const schemaOptions: SchemaOptions = {
   timestamps: true,

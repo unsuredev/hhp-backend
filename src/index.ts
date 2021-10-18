@@ -17,8 +17,7 @@ connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, config: 
     console.log(err);
 });
 
-const host:any = '0.0.0.0';
-http.createServer(app).listen(process.env.HTTP_PORT || 3001,host, () => {
+http.createServer(app).listen(process.env.HTTP_PORT || 3001, () => {
     console.log(`server is listening on ${HTTP_PORT}`);
 });
 

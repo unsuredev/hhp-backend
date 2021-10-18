@@ -1,11 +1,9 @@
 import * as httpContext from 'express-http-context'
 import { decryptionMiddleware, encryptionMiddleware } from "./middlewares";
-import { Express, json, urlencoded } from "express";
+import { Express } from "express";
 import * as bodyParser from "body-parser";
 import * as express from "express";
-import * as http from "http";
 import { CorsOptions } from "cors";
-import {HTTP_PORT} from "./config/constant";
 import * as cors from "cors";
 
 import { connect, set } from "mongoose";
@@ -58,7 +56,7 @@ app.use(API_VERSION, customerRoutes());
 app.get(`${API_VERSION}/test`, (req, res) => {
     return res.status(200).json({ current_time: Date().toString(), name: req.query.name });
 });
-app.get("/", (_, res) => {
+app.get(`${API_VERSION}/ok`,  (req, res) => {
     res.writeHead(200, {
         "Content-Type": "text/html; charset=utf-8",
     });

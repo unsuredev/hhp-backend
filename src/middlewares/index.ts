@@ -3,7 +3,7 @@ import { NODE_ENV, NO_BODY_URLS, BYPASS_URLS, No_ENCRYPT_RESP_URLS,API_VERSION }
 import { db } from "../models/db";
 import { decode } from "jsonwebtoken";
 import { Request, Response, NextFunction as Next } from "express";
-import { ssDecrypt, ssEncrypt } from "../services/encryption";
+import { ssDecrypt, ssEncrypt } from "../services/hhpencryption";
 export const decryptionMiddleware = (req: Request, res: Response, next: Next) => {
     let decryptedData = null;
     const reqUrl = req.originalUrl.split("?")[0]; // Because of resetpassword token link
