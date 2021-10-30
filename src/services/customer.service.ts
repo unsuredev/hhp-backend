@@ -197,7 +197,7 @@ export class CustomerService extends BaseService {
       const query = { "_id": result._id }
       const option = { new: true }
       if (photo_key === "InstalationLetter") {
-        await db.Customers.findOneAndUpdate(query, { $set: { InstalationLetter: url } }, option);
+        await db.Customers.findOneAndUpdate(query, { $set: { InstalationLetter: url, installtatus:"Complete" } }, option);
       }
       else if (photo_key === "satisfactionLetter") {
         await db.Customers.findOneAndUpdate(query, { $set: { satisfactionLetter: url } }, option);

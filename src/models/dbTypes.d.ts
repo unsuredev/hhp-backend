@@ -26,9 +26,7 @@ export interface IUser extends Document {
     active:boolean;
     mobile_type: string;
     access_token: string;
-    InstalationLetter:string;
-    satisfactionLetter:string;
-    otherLetter:string;
+
 }
 
 
@@ -44,6 +42,11 @@ export interface ICustomer extends Document {
     subAgent: string;
     remarks: string;
     addedBy: string;
+    InstalationLetter:string;
+    satisfactionLetter:string;
+    otherLetter:string;
+    installStatus:string;
+
 }
 
 export interface IAgent extends Document {

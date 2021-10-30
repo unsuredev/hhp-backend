@@ -75,6 +75,11 @@ const CustomerSchema = new Schema(
     otherLetter:{
       type: String,
       required: false,
+    },
+    installtatus:{
+      type: String,
+      required: false,
+      default: 'Not complete'
     }
   },
   { timestamps: {} }

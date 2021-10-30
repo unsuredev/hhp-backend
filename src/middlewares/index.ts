@@ -3,7 +3,6 @@ import { NODE_ENV, NO_BODY_URLS, BYPASS_URLS, No_ENCRYPT_RESP_URLS,API_VERSION }
 import { db } from "../models/db";
 import { decode } from "jsonwebtoken";
 import { Request, Response, NextFunction as Next } from "express";
-import { ssDecrypt, ssEncrypt } from "../services/hhpencryption";
 export const decryptionMiddleware = (req: Request, res: Response, next: Next) => {
     let decryptedData = null;
     const reqUrl = req.originalUrl.split("?")[0]; // Because of resetpassword token link
@@ -17,7 +16,7 @@ export const decryptionMiddleware = (req: Request, res: Response, next: Next) =>
         //Decryption not needed
         decryptedData = req.body;
     } else {
-        decryptedData = ssDecrypt(req.body.data);
+        decryptedData = req.body;
     }
 // console.log(BYPASS_URLS.includes(reqUrl),reqUrl, BYPASS_URLS)
     if (BYPASS_URLS.includes(reqUrl.split(API_VERSION)[1])) {
@@ -64,7 +63,7 @@ export const encryptionMiddleware = (body, req: Request, res: Response) => {
     if (NODE_ENV === "local" || No_ENCRYPT_RESP_URLS.includes[req.originalUrl.split(API_VERSION)[1]] || encryption==="false" ) {
         body.data = data;
     } else {
-        body.data = ssEncrypt(JSON.stringify(data));
+        body.data = data;
     }
     return body;
 };

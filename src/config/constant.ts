@@ -1,7 +1,7 @@
 export const HTTP_PORT: number | string = process.env.HTTP_PORT || 3001;
 export const USER_ID_PREPEND_STRING: string = process.env.USER_ID_PREPEND_STRING || "HHP_";
 export const JWT_SECRET: string = process.env.JWT_SECRET;
-export const MONGODB_URI: string = process.env.MONGODB_URI || "mongodb+srv://jaman:jaman2021@cluster0.1zzim.mongodb.net/users?retryWrites=true&w=majority";
+export const MONGODB_URI: string = process.env.MONGODB_URI || "mongodb+srv://jaman:jaman2021@cluster0.1zzim.mongodb.net/hariharpara?retryWrites=true&w=majority";
 export const ACCESS_TOKEN_EXPIRES_IN: string = process.env.ACCESS_TOKEN_EXPIRES_IN || '24h';
 export const RESET_PASSWORD_TOKEN_EXPIRES_IN: string = process.env.RESET_PASSWORD_TOKEN_EXPIRES_IN || '48h';
 
