@@ -48,8 +48,8 @@
         "build": "tsc ",
         "start": "tsc  &&  node ./dist/index.js",
         "start-prod": "node ./dist/index.js",
+        "tsc-watch": "tsc -w",
         "clean": "rimraf dist",
-        "predev": "npm run clean ",
-        "tsc-watch": "tsc -w"
+        "predev": "npm run clean "
     }
 }
