@@ -43,11 +43,14 @@
     },
     "scripts": {
         "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\"",
-        "build": "tsc ",
-        "start": "tsc  &&  node ./dist/index.js",
-        "start-prod": "node ./dist/index.js",
-        "tsc-watch": "tsc -w",
-        "clean": "rimraf dist",
-        "predev": "npm run clean "
+            "build": "tsc ",
+            "start": "tsc  && node ./dist/index.js",
+            "start-prod": "node ./dist/index.js",
+            "clean": "rimraf dist",
+            "predev": "npm run clean ",
+            "prenodemon": "wait-on ./build/app.js",
+            "nodemon": "nodemon  -r dotenv/config --delay 1000ms --watch .env --watch ./build --inspect --inspect-port=1234  \"./build/app.js\" dotenv_config_path=.env",
+            "tsc-watch": "tsc -w",
+            "lint": "eslint . --ext .ts"
     }
 }
