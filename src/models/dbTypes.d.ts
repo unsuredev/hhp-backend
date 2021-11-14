@@ -49,6 +49,23 @@ export interface ICustomer extends Document {
 
 }
 
+export interface IOldCustomer extends Document {
+    name: string;
+    mainAadhaar: number;
+    consumerNo: string;
+    mobile: number;
+    regNo: number;
+    mainAgent: string;
+    subAgent: string;
+    remarks: string;
+    addedBy: string;
+    installStatus:string;
+    rgisteredAgencyName:string
+    oldAgentName:string
+    year:string
+}
+
+
 export interface IAgent extends Document {
     name: string;
     mobile: number;

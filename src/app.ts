@@ -14,6 +14,8 @@ export const app: Express = express();
 import userRoutes from "./routes/user.routes";
 import agentRoutes from "./routes/agent.routes";
 import customerRoutes from './routes/customer.routes'
+import oldCustomerRoutes from './routes/old_customer.routes'
+
 import {  API_VERSION } from "./config/constant";
 
 
@@ -50,6 +52,8 @@ app.use(mung.json(encryptionMiddleware));
 app.use(API_VERSION, userRoutes());
 app.use(API_VERSION, agentRoutes());
 app.use(API_VERSION, customerRoutes());
+app.use(API_VERSION,oldCustomerRoutes())
+
 
 
 
