@@ -11,7 +11,7 @@ export const db = {
     Customers: model<dbTypes.ICustomer>("Customers", CUSTOMERSCHEMAS.CustomerSchema ,  "hhp_customers"),
     OldCustomers: model<dbTypes.IOldCustomer>("OldCustomers", OldCustomerSchema.OldCustomerSchema ,  "old_customers"),
     Agent: model<dbTypes.IAgent>("agent", AGENTSCHEMAS.AgentSchema ,  "hhp_agent"),
-    trashUsers: model<dbTypes.IUser>("trashUsers", TrashCustomerSchema.TrashCustomerSchema, "hhp_trashusers")
+    trashUsers: model<dbTypes.ITrashCustomers>("trashUsers", TrashCustomerSchema.TrashCustomerSchema, "hhp_trashusers")
 };
 
 

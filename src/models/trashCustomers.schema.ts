@@ -22,7 +22,7 @@ const TrashCustomerSchema = new Schema(
         },
         mobile: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             lowercase: true,
             sparse: true,
@@ -46,7 +46,7 @@ const TrashCustomerSchema = new Schema(
         },
         familyAadhaar: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             lowercase: true,
             sparse: true,
@@ -54,7 +54,7 @@ const TrashCustomerSchema = new Schema(
         },
         mainAgent: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             lowercase: true,
         },
@@ -62,6 +62,8 @@ const TrashCustomerSchema = new Schema(
             type: String,
             trim: true,
             lowercase: true,
+            required: false,
+
         },
         regNo: {
             type: String,
@@ -72,11 +74,15 @@ const TrashCustomerSchema = new Schema(
             type: String,
             trim: true,
             lowercase: true,
+            required: false,
+
         },
         addedBy: {
             type: String,
             trim: true,
             lowercase: true,
+            required: false,
+
         },
     },
     { timestamps: {} }

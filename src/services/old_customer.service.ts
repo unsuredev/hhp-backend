@@ -147,9 +147,7 @@ export class OldCustomerService extends BaseService {
         }
         //@ts-ignore
         let trashResult = await db.trashUsers.create(trashCustomer)
-        console.log("trash -res", trashResult)
         let result = await db.OldCustomers.findByIdAndRemove(Id).exec();
-        console.log("remove", result)
         if (result.name == null) throw "customer not found";
         console.log(result)
         return this.RESP("success", "customer deleted successfully", result);

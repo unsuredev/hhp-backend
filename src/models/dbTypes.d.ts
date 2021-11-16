@@ -76,11 +76,11 @@ export interface ITrashCustomers extends Document {
     name: string;
     mainAadhaar: number;
     consumerNo: string;
-    mobile: number;
-    familyAadhaar: string;
+    mobile?: number;
+    familyAadhaar?: string;
     regNo: number;
     mainAgent: string;
-    subAgent: string;
+    subAgent?: string;
     remarks: string;
-    addedBy: string;
+    addedBy?: string;
 }
