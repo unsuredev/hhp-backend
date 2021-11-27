@@ -56,6 +56,12 @@ export const API_ERROR_CODES = {
         "detail": "current password doesnt match",
         "isOperational": true,
     },
+    "E_CONNECTION_S_10000": { //Used
+        "toastMessage": "No data found!",
+        "detail": "No data found!",
+        "isOperational": true,
+    },
+    
 
 
 }

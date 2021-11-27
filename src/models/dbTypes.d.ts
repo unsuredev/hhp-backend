@@ -84,3 +84,32 @@ export interface ITrashCustomers extends Document {
     remarks: string;
     addedBy?: string;
 }
+
+
+
+export interface IConnection extends Document {
+    agent: string;
+    totalConnection: number;
+    load: string;
+    regulator: number;
+    pipe: string;
+    totalLight: number;
+    paidLight: number;
+    bplOven: number;
+    nonHpOven: number;
+    hpOven: number;
+    totalAmount: number;
+    paidAmount: number;
+    remarks: string;
+    nonHpOvenPricing:number;
+    hpOvenPricing:number
+}
+
+
+
+export interface IPricing extends Document {
+    nonHpOvenPricing:number;
+    hpOvenPricing:number
+}
+
+

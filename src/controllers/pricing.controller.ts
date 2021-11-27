@@ -1,0 +1,67 @@
+import BaseController from "../policies/BaseController";
+import { Request, Response, NextFunction as Next } from "express";
+import * as Joi from "@hapi/joi";
+import { PricingService } from "../services/pricing.service";
+
+export class PricingController extends BaseController {
+    constructor(private pricingService: PricingService = new PricingService()) {
+        super();
+    }
+
+    // register a price
+    registerPricing = async (req: Request, res: Response, next: Next) => {
+        try {
+            console.log("here" , req.body)
+            const result = await this.pricingService.registerPricing(req.body);
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to Register price",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+
+
+    // find all pricing
+    getPricing = async (req: Request, res: Response, next: Next) => {
+        try {
+            let result = await this.pricingService.getPricingDetails();
+            return res.send(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to getAgent details",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+
+
+
+    // update 
+    updatePricing = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.updatePricing(req.body)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to update Connection",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+
+
+
+}

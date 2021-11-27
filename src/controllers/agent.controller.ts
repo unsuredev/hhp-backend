@@ -16,6 +16,13 @@ export class AgentController extends BaseController {
     .required();
 
 
+    private agnetConnectionJoiSchema = Joi.object()
+    .keys({
+        agent: Joi.string().required(),
+    })
+    .required();
+
+
 
   // register a agent
   registerAgent = async (req: Request, res: Response, next: Next) => {
@@ -48,4 +55,56 @@ export class AgentController extends BaseController {
         errorMessage: error.message
     }, error));    }
   };
+
+
+
+  // register a connection
+  registerConnection = async (req: Request, res: Response, next: Next) => {
+    try {
+      const decryptedData = req.body;
+      const result = await this.agentService.registerConnection(req.body);
+      let httpStatusCode = 200
+      return res.status(httpStatusCode).json(result);
+    } catch (error) {
+      return res.status(400).json(this.ERR({
+        status: "failed",
+        message: "Unable to Register Connection",
+        errorMessage: error.message
+    }, error));    }
+  };
+
+
+
+    // find  agent connection details agent
+    getConnection = async (req: Request, res: Response, next: Next) => {
+      try {
+        let result = await this.agentService.getConnectionDetails(req.body);
+        return res.send(result);
+      } catch (error) {
+        return res.status(400).json(this.ERR({
+          status: "failed",
+          message: "Unable to getAgent details",
+          errorMessage: error.message
+      }, error));    }
+    };
+  
+
+    // update a connection
+    updateConnection = async (req: Request, res: Response, next: Next) => {
+      try {
+        const result = await this.agentService.updateConnection(req.body);
+        let httpStatusCode = 200
+        return res.status(httpStatusCode).json(result);
+      } catch (error) {
+        return res.status(400).json(this.ERR({
+          status: "failed",
+          message: "Unable to update Connection",
+          errorMessage: error.message
+      }, error));    }
+    };
+
+
+
+
+
 }
