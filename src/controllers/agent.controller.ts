@@ -104,6 +104,22 @@ export class AgentController extends BaseController {
     };
 
 
+        // get sales  history for agent
+        getSales = async (req: Request, res: Response, next: Next) => {
+          try {
+            const result = await this.agentService.getAllSales(req.body)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+          } catch (error) {
+            return res.status(400).json(this.ERR({
+              status: "failed",
+              message: "Unable to get sales history ",
+              errorMessage: error.message
+          }, error));    }
+        };
+    
+    
+    
 
 
 

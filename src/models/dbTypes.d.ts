@@ -113,3 +113,25 @@ export interface IPricing extends Document {
 }
 
 
+
+
+
+
+export interface ISalesHistory extends Document {
+    agent: string;
+    totalConnection: number;
+    load: string;
+    regulator: number;
+    pipe: string;
+    totalLight: number;
+    paidLight: number;
+    bplOven: number;
+    nonHpOven: number;
+    hpOven: number;
+    totalAmount: number;
+    paidAmount: number;
+    remarks: string;
+    nonHpOvenPricing:number;
+    hpOvenPricing:number
+}
+
