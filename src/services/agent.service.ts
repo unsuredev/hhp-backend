@@ -84,8 +84,6 @@ getConnectionDetails = async (value) => {
       const option = { new: true }
       const result = await db.Connection.findOneAndUpdate(query, value.data, option);
       //@ts-ignore
-      console.log("result", result, result._id)
-      //@ts-ignore
       const salesData = {
         agent: result.agent,
         bplOven: result.bplOven,
