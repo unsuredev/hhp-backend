@@ -65,7 +65,7 @@ export class OldCustomerController extends BaseController {
   //   }
   // }
 
-  //finding a customer from DB
+  //finding all customer from DB
   searchCustomer = async (req: Request, res: Response, next: Next) => {
     try {
       // const value = await this.cutomerUpdateJoiSchema.validateAsync(req.body);
@@ -79,6 +79,21 @@ export class OldCustomerController extends BaseController {
       }, error));
     }
   };
+
+    //finding single customer from DB
+    searchSingleCustomer = async (req: Request, res: Response, next: Next) => {
+      try {
+        // const value = await this.cutomerUpdateJoiSchema.validateAsync(req.body);
+        let result = await this.oldCustomerService.findSingleCustomer(req.body);
+        return res.status(200).json(result);
+      } catch (error) {
+        return res.status(400).json(this.ERR({
+          status: "failed",
+          message: "Unable to find Consumer",
+          errorMessage: error.message
+        }, error));
+      }
+    };
 
   customerStatsData = async (req: Request, res: Response, next: Next) => {
     try {

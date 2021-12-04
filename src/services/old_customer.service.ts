@@ -64,6 +64,32 @@ export class OldCustomerService extends BaseService {
       throw error;
     }
   };
+  findSingleCustomer = async (data) => {
+    try {
+      const {findkey , mainAadhaar , mobile,consumerNo ,regNo} =data
+      let options = {};
+      if (findkey === "mainAadhaar") {
+        options = { mainAadhaar: mainAadhaar };
+      } else if (findkey === "mobile") {
+        options = { mobile: mobile };
+      } else if (findkey === "consumerNo") {
+        options = { consumerNo: consumerNo };
+      }
+      else if (findkey === "regNo") {
+        options = { regNo: regNo };
+      } else {
+        options = { mainAadhaar: mainAadhaar };
+      }
+      let result = await db.OldCustomers.findOne(options).exec();
+      if (this._.isNil(result)) throw("customer not found")
+      //@ts-ignore
+      if (result == null) throw "Customer not found";
+      return this.RESP("success", "Customer found successfully", result);
+    } catch (error) {
+      throw error;
+    }
+  };
+
 
 
   statsData = async (startDateISO, endDateISO) => {
@@ -142,14 +168,8 @@ export class OldCustomerService extends BaseService {
       if (this._.isNil(existCustomer)) {
         throw "Customer not found";
       }
-      //@ts-expect-error
-        const trashCustomer = { "date": existCustomer.date, "mainAadhaar": existCustomer.mainAadhaar,"name": existCustomer.name, "remarks": existCustomer.remarks, "docsReturnDate": existCustomer.docsReturnDate,"familyAadhaar": existCustomer.familyAadhaar,"subAgent": existCustomer.subAgent,"mobile": existCustomer.mobile, "mainAgent": existCustomer.mainAgent,
-        }
-        //@ts-ignore
-        let trashResult = await db.trashUsers.create(trashCustomer)
         let result = await db.OldCustomers.findByIdAndRemove(Id).exec();
         if (result.name == null) throw "customer not found";
-        console.log(result)
         return this.RESP("success", "customer deleted successfully", result);
       //}
     } catch (error) {

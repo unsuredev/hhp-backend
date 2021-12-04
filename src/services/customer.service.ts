@@ -211,4 +211,23 @@ export class CustomerService extends BaseService {
       throw error;
     }
   };
+
+  uploadOldUserPhoto = async (data, url) => {
+    try {
+      const { photo_key } = data
+      const result = await db.OldCustomers.findOne({ "mainAadhaar": data.mainAadhaar }, { new: true });
+      const query = { "_id": result._id }
+      const option = { new: true }
+      if (photo_key === "InstalationLetter") {
+        await db.OldCustomers.findOneAndUpdate(query, { $set: { InstalationLetter: url, installtatus:"Complete" } }, option);
+      }
+
+      return this.RESP("success", "Old Customer photo uploaded successfully");
+    } catch (error) {
+      console.log("error", error)
+      throw error;
+    }
+  };
+
+
 }

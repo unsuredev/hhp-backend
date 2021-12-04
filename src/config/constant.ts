@@ -14,7 +14,7 @@ export const NO_BODY_URLS: string[] = ['/test','/ok' ,'/user/delete',
 
 
 export const BYPASS_URLS: string[] = [ '/test','/ok' , '/user/delete',
-    '/user/add', '/user/login', '/user/resetPassword',  '/test', '/agent/add','/customer/add' ,'/customer/uploadimages',
+    '/user/add', '/user/login', '/user/resetPassword',  '/test', '/agent/add','/customer/add' ,'/customer/uploadimages',"/old/customer/uploadimages",
    '/favicon.ico',  '/user/verifyEmail' ];
 export const No_ENCRYPT_RESP_URLS: string[] = [];
 

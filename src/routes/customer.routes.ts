@@ -18,6 +18,8 @@ export default function customerRoutes(): Router {
     customerRouter.get("/customer/getAll",cors(), CUSTOMER.getAllCustomer);
     customerRouter.get("/customer/trashCustomer",cors(), CUSTOMER.getAllTrashCustomer);
     customerRouter.post("/customer/uploadimages", cors(),  uploadMulter, uploadFileUserProfilePhoto,CUSTOMER.uploadUserPhoto);
+    customerRouter.post("/old/customer/uploadimages", cors(),  uploadMulter, uploadFileUserProfilePhoto,CUSTOMER.uploadOldUserPhoto);
+
 
     return customerRouter;
 }

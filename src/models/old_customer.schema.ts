@@ -71,7 +71,11 @@ const OldCustomerSchema = new Schema(
       type: String,
       required: false,
       default: 'Not Complete'
-    }
+    },
+    InstalationLetter:{
+      type: String,
+      required: false,
+    },
   },
   { timestamps: {} }
 );

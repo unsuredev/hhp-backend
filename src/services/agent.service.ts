@@ -124,6 +124,16 @@ getConnectionDetails = async (value) => {
 
 
 
+  getAllAgentSales = async () => {
+    try {
+      const result = await db.Connection.find().exec();
+      return this.RESP("success", "All agents connection  details successfully", result);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
 
 
 

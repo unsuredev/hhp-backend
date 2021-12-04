@@ -118,8 +118,23 @@ export class AgentController extends BaseController {
           }, error));    }
         };
     
-    
-    
+  // get all agents details
+  getAllSales = async (req: Request, res: Response, next: Next) => {
+    try {
+      const result = await this.agentService.getAllAgentSales()
+      let httpStatusCode = 200
+      return res.status(httpStatusCode).json(result);
+    } catch (error) {
+      return res.status(400).json(this.ERR({
+        status: "failed",
+        message: "Unable to get all agent connection  ",
+        errorMessage: error.message
+      }, error));
+    }
+  };
+
+
+
 
 
 
