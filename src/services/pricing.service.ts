@@ -1,3 +1,4 @@
+import { INCdelivery } from './../models/dbTypes.d';
 import BaseService from "../policies/BaseService";
 import { IPricing} from "../models/dbTypes";
 import { db } from "../models/db";
@@ -44,5 +45,78 @@ export class PricingService extends BaseService {
             throw error;
         }
     }
+
+
+    // REGISTER NC DELIVERY 
+
+    registerNcDelivery = async (value: INCdelivery) => {
+        try {
+            const enc = { ...value };
+            let result = await db.NCdelivery.create(enc)
+            //@ts-ignore
+            result = result.toObject();
+            return this.RESP("success", "NC Delivery registered successfully", { ncdelivery: result });
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
+    // GET NC  
+
+    getNcDelivery = async () => {
+        try {
+            const result = await db.NCdelivery.find()
+            return this.RESP("success", "get NC details  successfully", { NcDetails: result });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    // NC UPDATE 
+
+    updateNcDelivery = async (value) => {
+        try {
+            const { _id } = value
+            const query = { "_id": _id }
+            const option = { new: true }
+            const result = await db.NCdelivery.findOneAndUpdate(query, value.data, option);
+            if (result) {
+                const ncData = {
+                    "totalLod": result.totalLod,
+                    "totalRegulator": result.totalRegulator,
+                    "totalPipe": result.totalPipe,
+                    "totalBplOven": result.totalBplOven,
+                    "totalHpOven": result.totalHpOven,
+                    "totalNonHpOven": result.totalNonHpOven,
+                    "totalLight": result.totalLight,
+                    "totalAmount": result.totalAmount,
+                    "totalAmountDue": result.totalAmountDue
+                }
+                let ncHistory = await db.NCdeliveryHistory.create(ncData)
+            }
+            return this.RESP("success", "updated pricing  successfully", { pricing: result });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+
+        // GET NC history  
+
+        getAllNcDelivery = async () => {
+            try {
+                const result = await db.NCdeliveryHistory.find()
+                return this.RESP("success", " NC history data successfully", { NcDetails: result });
+            } catch (error) {
+                throw error;
+            }
+        }
+    
+
+
+
 
 }

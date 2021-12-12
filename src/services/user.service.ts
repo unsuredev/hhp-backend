@@ -65,6 +65,26 @@ export class UserService extends BaseService {
               }
             user.access_token = generate_tokens("ACCESS_TOKEN", { user_id: user.user_id ,name:user.name});
             const result = await user.save();
+                var hour = new Date().getHours();
+                // between 00 AM and 1 AM respectively
+                if (hour >= 24|| hour <= 1) {
+                    console.log("hours", hour)
+                    const resetData = {
+                        "totalLod": 0,
+                        "totalRegulator": 0,
+                        "totalPipe": 0,
+                        "totalBplOven": 0,
+                        "totalHpOven": 0,
+                        "totalNonHpOven": 0,
+                        "totalLight": 0,
+                        "totalAmount": 0,
+                        "totalAmountDue": 0,
+                    }
+                    const Id = "61b4841fa6f9df34ea365755"
+                    const ncReset = await db.NCdelivery.findOneAndUpdate({ "_id": Id },resetData,{new:true});
+                    console.log("ncReset",ncReset)
+                }
+
             let message = "Logged In Successfully";
             return this.RESP("success", message, { access_token: result.access_token });
         } catch (error) {

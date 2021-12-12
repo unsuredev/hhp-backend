@@ -3,9 +3,10 @@ import BaseService from "../policies/BaseService";
 import { IAgent, } from "../models/dbTypes";
 import { db } from "../models/db";
 
+import {PricingService} from "./pricing.service";
 
 export class AgentService extends BaseService {
-  constructor() {
+  constructor(private pricingService: PricingService = new PricingService()) {
     super();
   }
   registerAgent = async (agent: IAgent) => {
@@ -43,7 +44,7 @@ export class AgentService extends BaseService {
 
 // here connection service start
 
-registerConnection = async (connection: IConnection) => {
+registerConnection =  async (connection: IConnection) => {
   try {
     const enc = { ...connection };
     // let userExist = await db.Agent.findOne({mobile: agent.mobile}).exec();
@@ -64,7 +65,7 @@ registerConnection = async (connection: IConnection) => {
 getConnectionDetails = async (value) => {
   try {
     const agentName=value.agent
-    
+
       let result = await  db.Connection.findOne({agent:agentName})
       if (this._.isNil(result)) {
         throw new Error("E_CONNECTION_S_10000");
@@ -77,13 +78,29 @@ getConnectionDetails = async (value) => {
 
 
 
-  updateConnection = async (value) => {
+  updateConnection = async (value: IConnection) => {
     try {
-      const { _id } = value.data
-      const query = { "_id": _id }
+      const { agent } = value
+      const query = { "agent": agent }
       const option = { new: true }
-      const result = await db.Connection.findOneAndUpdate(query, value.data, option);
-      //@ts-ignore
+      const connection = await db.Connection.findOne({ agent: agent });
+      const connectionData = {
+        agent: connection.agent,
+        bplOven: connection.bplOven - value.bplOven,
+        hpOven: connection.hpOven - value.hpOven,
+        load: connection.load - value.load,
+        nonHpOven: connection.nonHpOven - value.nonHpOven,
+        paidAmount: connection.paidAmount - value.paidAmount,
+        paidLight: connection.paidLight - value.paidLight,
+        pipe: connection.pipe - value.pipe,
+        regulator: connection.regulator - value.regulator,
+        remarks: value.remarks,
+        totalConnection: connection.totalConnection - value.totalConnection,
+        totalLight: connection.totalLight - value.totalLight
+      }
+      const result = await db.Connection.findOneAndUpdate(query, connectionData, option);
+
+
       const salesData = {
         agent: result.agent,
         bplOven: result.bplOven,
@@ -100,10 +117,48 @@ getConnectionDetails = async (value) => {
         totalLight: result.totalLight
       }
       const salesHistory = await db.SalesHistory.create(salesData)
+
       if (this._.isNil(salesHistory)) {
         throw new Error("Sales history Creation failed");
       }
-      return this.RESP("success", "updated connection data successfully", { connection: result });
+
+      const Id = "61b4841fa6f9df34ea365755"
+      const resultNew = await db.NCdelivery.findOne({ "_id": Id });
+      console.log("nc", resultNew)
+ 
+      const ncDelivery = resultNew.toObject()
+
+         //@ts-ignore
+      ncDelivery.agent = value.agent
+
+      //@ts-ignore
+      ncDelivery.totalLod = parseInt(ncDelivery.totalLod) + parseInt(value.load)
+      //@ts-ignore
+      ncDelivery.totalRegulator = parseInt(ncDelivery.totalRegulator) + parseInt(value.regulator)
+      //@ts-ignore
+      ncDelivery.totalPipe = parseInt(ncDelivery.totalPipe) + parseInt(value.pipe)
+      //@ts-ignore
+      ncDelivery.totalBplOven = parseInt(ncDelivery.totalBplOven) +parseInt(value.bplOven)
+      //@ts-ignore
+      ncDelivery.totalHpOven = parseInt(ncDelivery.totalBplOven) + parseInt(value.hpOven)
+      //@ts-ignore
+      ncDelivery.totalNonHpOven = parseInt(ncDelivery.totalNonHpOven) + parseInt(value.nonHpOven)
+      //@ts-ignore
+      ncDelivery.totalLight = parseInt(ncDelivery.totalLight) + parseInt(value.paidLight)
+            //@ts-ignore
+
+      ncDelivery.totalAmount = parseInt(ncDelivery.totalAmount) + parseInt(value.paidAmount)
+
+      delete ncDelivery.__v
+      delete ncDelivery._id
+      //@ts-ignore
+
+      const data = await db.NCdelivery.findOneAndUpdate({ "_id": Id }, ncDelivery);
+      //@ts-ignore
+
+      const ncHistory= await db.NCdeliveryHistory.create(ncDelivery)
+      console.log("ncHistory", ncHistory)
+      return this.RESP("success", "updated connection data successfully", { connection: data });
     } catch (error) {
       throw error;
     }

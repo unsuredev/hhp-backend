@@ -90,9 +90,9 @@ export interface ITrashCustomers extends Document {
 export interface IConnection extends Document {
     agent: string;
     totalConnection: number;
-    load: string;
+    load: number;
     regulator: number;
-    pipe: string;
+    pipe: number;
     totalLight: number;
     paidLight: number;
     bplOven: number;
@@ -101,8 +101,8 @@ export interface IConnection extends Document {
     totalAmount: number;
     paidAmount: number;
     remarks: string;
-    nonHpOvenPricing:number;
-    hpOvenPricing:number
+    nonHpOvenPricing: number;
+    hpOvenPricing: number
 }
 
 
@@ -133,5 +133,18 @@ export interface ISalesHistory extends Document {
     remarks: string;
     nonHpOvenPricing:number;
     hpOvenPricing:number
+}
+
+export interface INCdelivery extends Document {
+    agent:string;
+    totalLod: number;
+    totalRegulator: number;
+    totalPipe: number;
+    totalBplOven: number;
+    totalHpOven: number;
+    totalNonHpOven: number;
+    totalLight: number;
+    totalAmount: number;
+    totalAmountDue: number;
 }
 

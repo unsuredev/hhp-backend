@@ -60,8 +60,72 @@ export class PricingController extends BaseController {
         }
     };
 
+// NC DELIVERY API
+
+
+    // register a price
+    registerNcDelivery = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.registerNcDelivery(req.body)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "add nc delivery ",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+    // GET NC DELIVERY API 
+    getNcdelivery = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.getNcDelivery()
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to update  Nc Delivery",
+                errorMessage: error.message
+            }, error));
+        }
+    };
 
 
 
+    // NC DELIVERY UPDATE 
+    updateNcdelivery = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.updateNcDelivery(req.body)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to update  Nc Delivery",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+
+    // NC DELIVERY ALL GET 
+    getAllNcdelivery = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.getAllNcDelivery()
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to update  Nc Delivery",
+                errorMessage: error.message
+            }, error));
+        }
+    };
 
 }

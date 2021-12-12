@@ -8,7 +8,7 @@ import * as OldCustomerSchema from './old_customer.schema'
 import * as ConnectionSchema from './connection.schema';
 import * as PricingSchema from './pricing.schema';
 import * as salesHIstorySchema from './salesHistory.schema'
-
+import * as NCdeliverySchema from './ncdelivery.schema';
 
 export const db = {
     Users: model<dbTypes.IUser>("Users", SCHEMAS.userSchema, "hhp_users"),
@@ -18,8 +18,13 @@ export const db = {
     trashUsers: model<dbTypes.ITrashCustomers>("trashUsers", TrashCustomerSchema.TrashCustomerSchema, "hhp_trashusers"),
     Connection: model<dbTypes.IConnection>("connection", ConnectionSchema.ConnectionSchema, "hhp_connection"),
     Price: model<dbTypes.IPricing>("Pricing", PricingSchema.PricingSchema, "hhp_pricing"),
-    SalesHistory:model<dbTypes.ISalesHistory>("SalesHistory", salesHIstorySchema.salesHIstorySchema, "hhp_sales")
+    SalesHistory:model<dbTypes.ISalesHistory>("SalesHistory", salesHIstorySchema.salesHIstorySchema, "hhp_salesHistory"),
+    NCdelivery:model<dbTypes.INCdelivery>("NCdeliveryS", NCdeliverySchema.NCdeliverySchema, "hhp_ncdelivery"),
+    NCdeliveryHistory:model<dbTypes.INCdelivery>("NCdeliveryHistory", NCdeliverySchema.NCdeliverySchema, "ncdelivery_history")
+
 };
+
+
 
 
 
