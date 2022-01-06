@@ -67,12 +67,9 @@ export class AgentService extends BaseService {
       const agentName = value.agent
       const query = { "agent": agentName }
       const option = { new: true }
-
-      let result = await db.Connection.findOne({ agent: agentName })
-      if (this._.isNil(result)) {
-        throw new Error("E_CONNECTION_S_10000");
-      }
-      const list = await db.Customers.find({ mainAgent: value.agent ,
+      const queryN = { "mainAgent": value.agent.toLowerCase() }
+      const list = await db.Customers.find({
+        mainAgent: value.agent,
         'consumerNo':
         {
           "$nin": [
@@ -81,8 +78,18 @@ export class AgentService extends BaseService {
           ]
         }
       })
-      const result2 = await db.Connection.findOneAndUpdate(query, { totalConnection: list.length }, option);
-      return this.RESP("success", "Fetched connection details successfully", result);
+      const intallationComplete = await db.Customers.find({mainAgent: value.agent,installtatus:"Complete" })
+      const far2 = await db.Customers.updateMany(queryN, { mainAgent: value.agent.toUpperCase() }, { multi: true })
+        await db.Connection.findOneAndUpdate(query, { totalConnection: list.length }, option);
+      let result = await db.Connection.findOne({ agent: agentName })
+      const connectionData =result.toObject()
+
+      connectionData['installationComplete']=intallationComplete.length
+      console.log("result" ,  connectionData)
+      if (this._.isNil(result)) {
+        throw new Error("E_CONNECTION_S_10000");
+      }
+      return this.RESP("success", "Fetched connection details successfully", connectionData);
     } catch (error) {
       throw error;
     }
