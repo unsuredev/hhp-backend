@@ -41,7 +41,7 @@ export class CustomerService extends BaseService {
 
   findCustomer = async (data) => {
     try {
-      const {findkey , mainAadhaar , mobile,consumerNo ,regNo} =data
+      const {findkey , mainAadhaar , mobile,consumerNo ,regNo , familyAadhaar} =data
       let options = {};
       if (findkey === "mainAadhaar") {
         options = { mainAadhaar: mainAadhaar };
@@ -52,9 +52,14 @@ export class CustomerService extends BaseService {
       }
       else if (findkey === "regNo") {
         options = { regNo: regNo };
-      } else {
+      }
+      else if (findkey === "familyAadhaar") {
+        options = { familyAadhaar:familyAadhaar };
+      }
+      else {
         options = { mainAadhaar: mainAadhaar };
       }
+
       let result = await db.Customers.findOne(options).exec();
       if (this._.isNil(result)) throw("customer not found")
       //@ts-ignore
