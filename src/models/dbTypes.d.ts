@@ -26,6 +26,10 @@ export interface IUser extends Document {
     active:boolean;
     mobile_type: string;
     access_token: string;
+    dob:string;
+    is_online:boolean;
+    profile_url:string
+    status:string
 
 }
 
@@ -46,6 +50,7 @@ export interface ICustomer extends Document {
     satisfactionLetter:string;
     otherLetter:string;
     installStatus:string;
+    registeredAgencyName:string
 
 }
 
@@ -60,7 +65,7 @@ export interface IOldCustomer extends Document {
     remarks: string;
     addedBy: string;
     installStatus:string;
-    rgisteredAgencyName:string
+    registeredAgencyName:string
     oldAgentName:string
     year:string
 }
@@ -70,6 +75,8 @@ export interface IAgent extends Document {
     name: string;
     mobile: number;
     address: string;
+    email:string,
+    active:boolean
 }
 
 export interface ITrashCustomers extends Document {
@@ -146,5 +153,20 @@ export interface INCdelivery extends Document {
     totalLight: number;
     totalAmount: number;
     totalAmountDue: number;
+}
+
+
+export interface IRefilSaleSchema extends Document {
+    agent:string;
+    cyclinderLoad: number;
+    cyclinderEmpty: number;
+    refilRate: number;
+    ncSale: number;
+    ncSaleRate: number;
+    remarks:string;
+    amountPaid: number;
+    totalAmount: number;
+    totalAmountDue: number;
+    yesterDayAmount:number;
 }
 

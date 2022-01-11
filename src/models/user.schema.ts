@@ -62,6 +62,20 @@ const userSchema = new Schema({
     city: {
         type: String,
     },
+    dob:{
+        type: String,
+    },
+    is_online:{
+        type:Boolean,
+        default: false
+    },
+    
+    profile_url:{
+        type: String
+    },
+    status:{
+        type: String
+    },
 
     active:{
         type:Boolean,

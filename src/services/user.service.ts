@@ -147,4 +147,41 @@ export class UserService extends BaseService {
         }
     }
 
+
+
+
+    findUser = async (data) => {
+        try {
+            const { user_id } = data
+            
+            let result = await db.Users.findOne({ user_id: user_id })
+            const user=result.toObject()
+            delete user.access_token
+            delete user.password
+            if (this._.isNil(result)) throw ("user not found")
+            //@ts-ignore
+            if (result == null) throw "user not found";
+            return this.RESP("success", "user found successfully", user);
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+
+    updateUser = async (value: any) => {
+        try {
+            const { user_id } = value
+            const query = { "user_id": user_id }
+            const option = { new: true }
+            console.log("user" , value)
+            const result = await db.Users.findOneAndUpdate(query, value, option);
+            if (result) {
+                return this.RESP("success", "User data updated successfully", result);
+            }
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
 }

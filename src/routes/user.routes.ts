@@ -11,6 +11,9 @@ export default function userRoutes():Router {
     userRouter.get("/user/getall",  cors(), USER.getUsers);
     userRouter.post("/user/block", cors(),USER.blockAndUnblock);
     userRouter.post("/user/changepassword",cors(),  USER.changePassword);
+    userRouter.post("/user/update",cors(),  USER.updateUser);
+    userRouter.post("/user/find",cors(),  USER.searchUser);
+
     
     return userRouter;
 }

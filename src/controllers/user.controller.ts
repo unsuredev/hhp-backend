@@ -22,8 +22,14 @@ export class UserController extends BaseController {
     .required();
 
     private chnagePasswordSchema = this.userJoiSchema.keys({
-            old_password: Joi.string().required(),
-            new_password: Joi.string().required(),
+        user_id: Joi.string().required(),
+        old_password: Joi.string().required(),
+        new_password: Joi.string().required(),
+    })
+        .required();
+
+        private UpdateUserSchema = this.userJoiSchema.keys({
+            user_id: Joi.string().required(),
         })
         .required();
 
@@ -159,6 +165,37 @@ export class UserController extends BaseController {
         }
     }
 
+
+
+    //finding a user 
+    searchUser = async (req: Request, res: Response, next: Next) => {
+        try {
+            const value = await this.UpdateUserSchema.validateAsync(req.body);
+            let result = await this.userService.findUser(req.body);
+            return res.status(200).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to find user",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+    // update user
+    updateUser = async (req: Request, res: Response, next: Next) => {
+        try {
+            let result = await this.userService.updateUser(req.body)
+            return res.status(200).json({ data: result });
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to update user",
+                errorMessage: error.message
+            }, error));
+        }
+    }
 
 
 }

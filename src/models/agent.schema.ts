@@ -21,10 +21,17 @@ const schemaOptions: SchemaOptions = {
     unique:true,
       required: true,
     },
+    email:{
+      type:String
+    },
     address: {
       type: String,
       required: true,
     },
+    active:{
+      type:Boolean,
+      default: true
+    }
 
   },
   { timestamps: true

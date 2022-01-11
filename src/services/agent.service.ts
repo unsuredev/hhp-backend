@@ -9,6 +9,8 @@ export class AgentService extends BaseService {
   constructor(private pricingService: PricingService = new PricingService()) {
     super();
   }
+
+  
   registerAgent = async (agent: IAgent) => {
     try {
       const enc = { ...agent };
@@ -31,6 +33,16 @@ export class AgentService extends BaseService {
   getAgentslist = async () => {
     try {
       let result = await db.Agent.find()
+      return this.RESP("success", "Fetched Agent details successfully", { agents: result });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  getActiveAgentslist = async () => {
+    try {
+      let result = await db.Agent.find({active:true})
       return this.RESP("success", "Fetched Agent details successfully", { agents: result });
     } catch (error) {
       throw error;
@@ -227,7 +239,18 @@ export class AgentService extends BaseService {
 
 
 
-
+  //block and unblock agent for list
+  blockandUnblock = async (value) => {
+    try {
+      const { mobile, active } = value
+      let existingResult = await db.Agent.findOne({ "mobile": mobile }).exec();
+      //@ts-ignore
+      const result = await db.Agent.findOneAndUpdate({ "mobile": mobile }, { $set: { active: !existingResult.active } });
+      return this.RESP("success", "Agent updated successfully", existingResult);
+    } catch (error) {
+      throw error;
+    }
+  }
 
 
 

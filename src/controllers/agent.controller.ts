@@ -15,13 +15,11 @@ export class AgentController extends BaseController {
     })
     .required();
 
-
-    private agnetConnectionJoiSchema = Joi.object()
+  private blockSchema = Joi.object()
     .keys({
-        agent: Joi.string().required(),
+      mobile: Joi.string().required(),
     })
     .required();
-
 
 
   // register a agent
@@ -56,6 +54,20 @@ export class AgentController extends BaseController {
     }, error));    }
   };
 
+    // find all active agent
+    getActiveAgent = async (req: Request, res: Response, next: Next) => {
+      try {
+        let result = await this.agentService.getActiveAgentslist()
+        return res.send(result);
+      } catch (error) {
+        return res.status(400).json(this.ERR({
+          status: "failed",
+          message: "Unable to get active agent list ",
+          errorMessage: error.message
+      }, error));    }
+    };
+  
+  
 
 
   // register a connection
@@ -134,6 +146,20 @@ export class AgentController extends BaseController {
   };
 
 
+  // block and unblock agent
+  blockAndUnblock = async (req: Request, res: Response, next: Next) => {
+    try {
+        // const value = await this.blockSchema.validateAsync(req.body, { stripUnknown: true });
+        let result = await this.agentService.blockandUnblock(req.body,)
+        return res.send(result);
+    } catch (error) {
+        return res.status(400).json(this.ERR({
+            status: "failed",
+            message: "Unable to block and unblock agent ",
+            errorMessage: error.message
+        }, error));
+    }
+};
 
 
 

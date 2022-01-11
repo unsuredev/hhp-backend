@@ -62,6 +62,7 @@ export class CustomerService extends BaseService {
 
       let result = await db.Customers.findOne(options).exec();
       if (this._.isNil(result)) throw("customer not found")
+
       //@ts-ignore
       if (result == null) throw "Customer not found";
       return this.RESP("success", "customer found successfully", result);

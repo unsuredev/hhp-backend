@@ -58,7 +58,7 @@ const OldCustomerSchema = new Schema(
       type: String,
       trim: true,
     },
-    rgisteredAgencyName:{
+    registeredAgencyName:{
       type: String,
     },
     oldAgentName:{
