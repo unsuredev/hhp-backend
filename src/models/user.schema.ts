@@ -8,24 +8,6 @@ interface Document extends BaseDocument {
 }
 
 
-const accessTokenSchema = new Schema({
-    access_token: {
-        type: String
-    },
-    refresh_token: {
-        type: String
-    },
-    account_id: {
-        type: String 
-    },
-    active:{
-        type:Boolean,
-        default: true
-    }
-}, {timestamps: true});
-
-
-
 const userSchema = new Schema({
     user_id: {
         type: String,
@@ -76,7 +58,9 @@ const userSchema = new Schema({
     status:{
         type: String
     },
-
+    last_login_timestamp: {
+        type: Date,
+    },
     active:{
         type:Boolean,
         default: true

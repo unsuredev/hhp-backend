@@ -53,8 +53,7 @@ const CustomerSchema = new Schema(
     },
     registeredAgencyName:{
       type: String,
-      required: false,
-      default: 'JAMAN HP GAS 2021'
+      required: false
     },
     regNo: {
       type: String,

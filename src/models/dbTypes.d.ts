@@ -30,6 +30,7 @@ export interface IUser extends Document {
     is_online:boolean;
     profile_url:string
     status:string
+    last_login_timestamp: Date;
 
 }
 

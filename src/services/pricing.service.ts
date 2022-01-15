@@ -67,7 +67,11 @@ export class PricingService extends BaseService {
     getNcDelivery = async () => {
         try {
             const result = await db.NCdelivery.find()
-            return this.RESP("success", "get NC details  successfully", { NcDetails: result });
+            const intallationComplete = await db.Customers.find({ installtatus: "Complete" })
+            result[0]['installationComplete'] = intallationComplete.length
+            const data = result[0].toObject()
+            data['installationComplete'] = intallationComplete.length
+            return this.RESP("success", "get NC details  successfully", { NcDetails: data });
         } catch (error) {
             throw error;
         }

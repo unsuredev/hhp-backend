@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { UserController } from "../controllers/user.controller";
 import * as cors from "cors"
+import {uploadFileUserProfilePhoto} from '../services/aws.service'
+import { uploadMulter } from '../services/multerHelper'
 
 const userRouter = Router();
 export default function userRoutes():Router {
@@ -13,6 +15,7 @@ export default function userRoutes():Router {
     userRouter.post("/user/changepassword",cors(),  USER.changePassword);
     userRouter.post("/user/update",cors(),  USER.updateUser);
     userRouter.post("/user/find",cors(),  USER.searchUser);
+    userRouter.post("/user/uploadprofilephoto", cors(),  uploadMulter, uploadFileUserProfilePhoto,USER.uploadOldUserPhoto);
 
     
     return userRouter;

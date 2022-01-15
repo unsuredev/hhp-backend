@@ -64,10 +64,11 @@ export class UserService extends BaseService {
                 throw new Error( "You don't have permission to login")
               }
             user.access_token = generate_tokens("ACCESS_TOKEN", { user_id: user.user_id ,name:user.name});
+            user.last_login_timestamp=new Date()
             const result = await user.save();
                 var hour = new Date().getHours();
                 // between 00 AM and 1 AM respectively
-                if (hour >= 24|| hour <= 1) {
+                if (hour >= 24|| hour <= 11) {
                     console.log("hours", hour)
                     const resetData = {
                         "totalLod": 0,
@@ -134,7 +135,7 @@ export class UserService extends BaseService {
         try {
             const { user, old_password, new_password } = value
             let existingResult = await db.Users.findOne({ "user_id": user.user_id }).exec();
-            const isValid =  compare(old_password, existingResult.password)
+            const isValid =  await compare(old_password, existingResult.password)
             if (isValid) {
                 //@ts-ignore
                 const passwordNew = await hashSync(new_password, genSaltSync(12));
@@ -170,15 +171,31 @@ export class UserService extends BaseService {
 
     updateUser = async (value: any) => {
         try {
-            const { user_id } = value
-            const query = { "user_id": user_id }
+            const { user } = value
+            const query = { "user_id": user.user_id }
             const option = { new: true }
-            console.log("user" , value)
             const result = await db.Users.findOneAndUpdate(query, value, option);
             if (result) {
                 return this.RESP("success", "User data updated successfully", result);
             }
         } catch (error) {
+            throw error;
+        }
+    };
+
+
+
+    uploadUserProfile = async (userId, url) => {
+        try {
+            const result = await db.Users.findOne({ "user_id": userId });
+            const query = { "user_id": userId }
+            const option = { new: true }
+            if (result) {
+                await db.Users.findOneAndUpdate(query, { $set: { profile_url: url } }, option);
+            }
+            return this.RESP("success", "Customer photo uploaded successfull    y");
+        } catch (error) {
+            console.log("error", error)
             throw error;
         }
     };

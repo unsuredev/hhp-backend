@@ -173,10 +173,7 @@ export class AgentService extends BaseService {
 
       const Id = "61b4841fa6f9df34ea365755"
       const resultNew = await db.NCdelivery.findOne({ "_id": Id });
-      console.log("nc", resultNew)
-
       const ncDelivery = resultNew.toObject()
-
       //@ts-ignore
       ncDelivery.agent = value.agent
 

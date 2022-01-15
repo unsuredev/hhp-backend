@@ -38,9 +38,9 @@ export const deleteS3Object = async (
 
 
 
-export const uploadFileUserProfilePhoto = async (req, res, next) => {
+export const uploadFileCustomerPhoto = async (req, res, next) => {
 
-    const key = `photos/customer/${12369854701}/${Date.now()}_p_${req.file.originalname}`
+    const key = `photos/customer/${12369854701}/${Date.now()}_jamanhp_${req.body.mainAadhaar}`
     const fileContent = req.file.buffer
     const params = {
         Bucket: process.env.AWS_S3_BUCKETNAME,
@@ -61,37 +61,27 @@ export const uploadFileUserProfilePhoto = async (req, res, next) => {
 
 
 
-// export const uploadUserPhoto = async (file, userID) => {
-//     const key = `photos/users/${userID}/${Date.now()}_${file.originalname}`
-//     const fileContent = file.buffer
-//     const params = {
-//         Bucket: AWS_BUCKET_NAME,
-//         Key: key, // File name you want to save as in S3
-//         Body: fileContent,
-//         ContentType: file.mimetype
-//     }
-//     try {
-//         if (NODE_ENV === 'test') {
-//             file.s3_url = key
-//         } else {
-//             const data = await S3.upload(params).promise()
-//             console.log(`File uploaded successfully. ${data.Location} and key ${key}`)
-//             const url = await getPreSignedUrlS3(AWS_BUCKET_NAME, key)
-//             file.s3_url = url
-//         }
-//         file.key = key
-//     } catch (error) {
-//         file.isError = true
-//         file.error = error
-//     }
-// }
+export const uploadFileUserProfilePhoto = async (req, res, next) => {
+
+    const key = `photos/user/${12369854701}/${Date.now()}_jamanProfile_${req.file.originalname}`
+
+    const fileContent = req.file.buffer
+    const params = {
+        Bucket: process.env.AWS_S3_BUCKETNAME_PROFILE,
+        Key: key, // File name you want to save as in S3
+        Body: fileContent,
+        ContentType: req.file.mimetype
+    }
+    try {
+        const data = await S3.upload(params).promise()
+        console.log(`photo uploaded successfully key ${key}`)
+        req.file.s3_url = data.Location
+        req.file.key = key
+        next()
+    } catch (error) {
+        console.log("aws service" , error)
+    }
+}
 
 
 
-// export const uploadUserPhotos = async (req, res, next) => {
-//     const { user } = req.decryptedData
-//     for (const file of req.files) {
-//         await uploadUserPhoto(file, user.user_id)
-//     }
-//     next()
-// }

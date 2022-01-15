@@ -4,7 +4,7 @@ import { Router } from "express";
 import { CustomerController } from "../controllers/customer.controller";
 import * as cors from "cors"
 import { uploadMulter } from '../services/multerHelper'
-import {uploadFileUserProfilePhoto} from '../services/aws.service'
+import {uploadFileCustomerPhoto} from '../services/aws.service'
   const customerRouter = Router();
 export default function customerRoutes(): Router {
     const CUSTOMER = new CustomerController();
@@ -17,8 +17,8 @@ export default function customerRoutes(): Router {
     customerRouter.post("/customer/update",cors(), CUSTOMER.updateCustomer);
     customerRouter.get("/customer/getAll",cors(), CUSTOMER.getAllCustomer);
     customerRouter.get("/customer/trashCustomer",cors(), CUSTOMER.getAllTrashCustomer);
-    customerRouter.post("/customer/uploadimages", cors(),  uploadMulter, uploadFileUserProfilePhoto,CUSTOMER.uploadUserPhoto);
-    customerRouter.post("/old/customer/uploadimages", cors(),  uploadMulter, uploadFileUserProfilePhoto,CUSTOMER.uploadOldUserPhoto);
+    customerRouter.post("/customer/uploadimages", cors(),  uploadMulter, uploadFileCustomerPhoto,CUSTOMER.uploadUserPhoto);
+    customerRouter.post("/old/customer/uploadimages", cors(),  uploadMulter, uploadFileCustomerPhoto,CUSTOMER.uploadOldUserPhoto);
 
 
     return customerRouter;
