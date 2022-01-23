@@ -72,7 +72,15 @@ const OldCustomerSchema = new Schema(
       required: false,
       default: 'Not Complete'
     },
+    satisfactionLetter:{
+      type: String,
+      required: false,
+    },
     InstalationLetter:{
+      type: String,
+      required: false,
+    },
+    otherLetter:{
       type: String,
       required: false,
     },

@@ -36,11 +36,11 @@ export class UserController extends BaseController {
 
     private addNewUserJoiSchema = Joi.object()
         .keys({
-            email: Joi.string().required().lowercase().email(),
-            password: Joi.when("login_type", {is: "email", then: Joi.string().required()}),
+            email: Joi.when("login_type", {is: "email", then: Joi.number().required()}),
+            password: Joi.string().required(),
             name: Joi.string().required(),
-            login_type: Joi.string().valid("email", "apple", "google", "facebook").required(),
-            mobile: Joi.string().optional().empty(''),
+            login_type: Joi.string().valid("email", "mobile", "google", "facebook").required(),
+            mobile:  Joi.when("login_type", {is: "mobile", then: Joi.string().required()}),
             })
         .required();
 
@@ -48,11 +48,11 @@ export class UserController extends BaseController {
 
     private loginUserJoiSchema = Joi.object()
         .keys({
-            email: Joi.string().lowercase().email().optional().empty(''),
-            password: Joi.when("login_type", {is: "email", then: Joi.string().required()}).empty(''),
-            mobile: Joi.string().lowercase().optional().empty(''),
-            login_type: Joi.string().valid("email", "apple", "google", "facebook").required(),
+            email: Joi.when("login_type", {is: "email", then: Joi.string().required()}),
+            password: Joi.string().required(),
+            login_type: Joi.string().valid("email", "mobile", "google", "facebook").required(),
             google_account_id: Joi.when("login_type", {is: "google", then: Joi.string().required()}).empty(''),
+            mobile:  Joi.when("login_type", {is: "mobile", then: Joi.number().required()}),
         })
         .required();
 
@@ -60,7 +60,11 @@ export class UserController extends BaseController {
 
     private logoutUserJoiSchema = this.userJoiSchema.required();
 
-
+    private roleChangeJoiSchema = Joi.object().keys({
+        role: Joi.string().required(),
+        email:Joi.string().required(),
+    })
+    .required();
 
 
 
@@ -69,8 +73,8 @@ export class UserController extends BaseController {
     addNewUser = async (req: Request, res: Response, next: Next) => {
         try {
             const decryptedData = req.decryptedData;
-            // const value = await this.addNewUserJoiSchema.validateAsync(decryptedData, this.joiOptions);
-            const result = await this.userService.registerAUser(req.body);
+            const value = await this.addNewUserJoiSchema.validateAsync(decryptedData, this.joiOptions);
+            const result = await this.userService.registerAUser(value);
             let httpStatusCode = 200
             return res.status(httpStatusCode).json(result);
         } catch (error) {
@@ -240,6 +244,20 @@ export class UserController extends BaseController {
         }
     }
 
+
+    changeRole = async (req: Request, res: Response, next: Next) => {
+        try {
+            const value = await this.roleChangeJoiSchema.validateAsync(req.body, { stripUnknown: true });
+            let result = await this.userService.chnageUserRole(value)
+            return res.send(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to change user role ",
+                errorMessage: error.message
+            }, error));
+        }
+    };
 
 
 }

@@ -1,3 +1,4 @@
+import { sendSms } from './aws.service';
 import { IConnection } from './../models/dbTypes.d';
 import BaseService from "../policies/BaseService";
 import { IAgent, } from "../models/dbTypes";
@@ -97,7 +98,6 @@ export class AgentService extends BaseService {
       const connectionData =result.toObject()
 
       connectionData['installationComplete']=intallationComplete.length
-      console.log("result" ,  connectionData)
       if (this._.isNil(result)) {
         throw new Error("E_CONNECTION_S_10000");
       }
@@ -249,6 +249,24 @@ export class AgentService extends BaseService {
     }
   }
 
+
+
+
+  //send sms 
+  sendSMS = async (value) => {
+    try {
+      const {  agent, load,regulator, pipe, hpOven,nonHpOven, light, paidAmount, dueAmount , installationPending } = value.sms
+      console.log("agent" , agent , value)
+      let agentDetails:any = await db.Agent.findOne({ name: agent }).exec();
+      console.log("agentDetails" , agentDetails)
+
+      const message = `Dear ${agent}, update from JAMAN HP GAS, Your connections has delivered: Load: ${load}, Regulator:${regulator}, Pipe: ${pipe}, Light: ${light}, HP Oven: ${hpOven}, NON HP Oven: ${nonHpOven}, Amount Paid: ${paidAmount},Till today Amount Due: ${dueAmount}, Installation Pending: ${installationPending}`
+     const result = await sendSms(message, agentDetails.mobile)
+      return this.RESP("success", "SMS sent successfully" );
+    } catch (error) {
+      throw error;
+    }
+  }
 
 
 }

@@ -23,14 +23,21 @@ export class UserService extends BaseService {
     registerAUser = async (user: IUser) => {
         try {
             const enc = {...user};
-            // if (enc.password) enc.password = hashSync(enc.password, genSaltSync(12));
-            let userExist = await db.Users.findOne({email: user.email}).exec();
+            let options
+            if (!this._.isNil(enc.email)) {
+                options = { email: enc.email };
+            }
+            if (!this._.isNil(enc.mobile)) {
+                options = { mobile:enc.mobile };
+            }            
+            let userExist = await db.Users.findOne(options).exec();
             if (!this._.isNil(userExist)) {
                 throw new Error("E_USER_S_10001");
             }
             const user_id = USER_ID_PREPEND_STRING + uuidv4();
             enc.user_id = user_id;
-            const access_token = generate_tokens("ACCESS_TOKEN", {user_id: user_id , name:user.name});
+            enc.role="user"
+            const access_token = generate_tokens("ACCESS_TOKEN", {user_id: user_id , name:user.name,role:"user"});
             enc.access_token = access_token;
             let result = await db.Users.create(enc)
             if (this._.isNil(result)) {
@@ -46,28 +53,36 @@ export class UserService extends BaseService {
     userLogin = async (decryptedData: IUser) => {
         try {
             const { email, password, mobile_type, login_type,  google_account_id, mobile} = decryptedData; //login_type
-            let options = {};
             let email_present = false;
-            if (!this._.isNil(email)) {
-                email_present = true;
+            let options
+            if (login_type==="email") {
+                options = { email: email };
             }
-            let user = await db.Users.findOne({email:email}).exec();
-            if (this._.isNil(user) && login_type === "email") throw new Error("E_USER_S_10004");
-            if (login_type === "email") {
+            if (login_type==="mobile") {
+                options = { mobile: mobile };
+            }
+
+            let user = await db.Users.findOne(options).exec();
+            console.log("user" , options, user)
+
+            if (this._.isNil(user)) throw new Error("E_USER_S_10004");
+            if (user.active===false){
+                throw new Error( "You don't have permission to login")
+            }
+
+            if (login_type === "email" || login_type==="mobile") {
                 if (!user.password){
                     throw new Error("E_USER_S_10019")
                 }
                 const isMatch = compareSync(password, user.password);
                 if (!isMatch) throw new Error("E_USER_S_10003");
             }
-            if (user.active===false){
-                throw new Error( "You don't have permission to login")
-              }
-            user.access_token = generate_tokens("ACCESS_TOKEN", { user_id: user.user_id ,name:user.name});
+         
+            user.access_token = generate_tokens("ACCESS_TOKEN", { user_id: user.user_id ,name:user.name ,role:user.role});
             user.last_login_timestamp=new Date()
             const result = await user.save();
                 var hour = new Date().getHours();
-                // between 00 AM and 1 AM respectively
+                // between 00 AM and 11 AM respectively
                 if (hour >= 24|| hour <= 11) {
                     console.log("hours", hour)
                     const resetData = {
@@ -83,7 +98,6 @@ export class UserService extends BaseService {
                     }
                     const Id = "61b4841fa6f9df34ea365755"
                     const ncReset = await db.NCdelivery.findOneAndUpdate({ "_id": Id },resetData,{new:true});
-                    console.log("ncReset",ncReset)
                 }
 
             let message = "Logged In Successfully";
@@ -99,7 +113,9 @@ export class UserService extends BaseService {
     userLogout = async (decryptedData) => {
         try {
             const {user} = decryptedData
+
             user.access_token = LOGOUT_TOKEN;
+            user.is_online=false
             const result = await user.save();
             return this.RESP("success", "Logged Out Successfully");
         } catch (error) {
@@ -200,5 +216,17 @@ export class UserService extends BaseService {
         }
     };
 
+
+
+
+    chnageUserRole = async (value) => {
+        try {
+            const { email, role } = value
+            const result = await db.Users.findOneAndUpdate({ "email": email } ,{ "role": role });
+            return this.RESP("success", "User's role updated successfully");
+        } catch (error) {
+            throw error;
+        }
+    }
 
 }

@@ -162,6 +162,22 @@ export class AgentController extends BaseController {
 };
 
 
+  // send SMS to agent's mobile
+  sendSmsToAgent = async (req: Request, res: Response, next: Next) => {
+    try {
+        let result = await this.agentService.sendSMS(req.body)
+        return res.send(result);
+    } catch (error) {
+        return res.status(400).json(this.ERR({
+            status: "failed",
+            message: "Unable to send SMS to agent ",
+            errorMessage: error.message
+        }, error));
+    }
+};
+
+
+
 
 
 }

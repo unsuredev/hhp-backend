@@ -10,7 +10,7 @@ export const generate_tokens = (type, data) => {
         const password_reset_token = jwt.sign(payload, JWT_SECRET, { expiresIn: RESET_PASSWORD_TOKEN_EXPIRES_IN }); // Use different secrets?
         return password_reset_token;
     }  else if (type === "ACCESS_TOKEN") {
-        const payload = { user_id: user_id , name:data.name };
+        const payload = { user_id: user_id , name:data.name, role:data.role };
         const access_token = jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN }); // Change to async?
         return access_token;
     }

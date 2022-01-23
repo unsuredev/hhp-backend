@@ -31,6 +31,7 @@ export interface IUser extends Document {
     profile_url:string
     status:string
     last_login_timestamp: Date;
+    role: string,
 
 }
 
@@ -69,6 +70,10 @@ export interface IOldCustomer extends Document {
     registeredAgencyName:string
     oldAgentName:string
     year:string
+    InstalationLetter:string;
+    satisfactionLetter:string;
+    otherLetter:string;
+
 }
 
 

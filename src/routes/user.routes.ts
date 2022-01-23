@@ -16,6 +16,8 @@ export default function userRoutes():Router {
     userRouter.post("/user/update",cors(),  USER.updateUser);
     userRouter.post("/user/find",cors(),  USER.searchUser);
     userRouter.post("/user/uploadprofilephoto", cors(),  uploadMulter, uploadFileUserProfilePhoto,USER.uploadOldUserPhoto);
+    userRouter.post("/user/roleupdate", cors(),  USER.changeRole);
+
 
     
     return userRouter;

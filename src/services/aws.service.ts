@@ -84,4 +84,32 @@ export const uploadFileUserProfilePhoto = async (req, res, next) => {
 }
 
 
+export const sendSms = async (message:string, PhoneNumber:string) => {
+
+
+    var params = {
+        Message: message,
+        PhoneNumber: "+91" + PhoneNumber
+        // MessageAttributes: {
+        //     'AWS.SNS.SMS.SMSType': {
+        //         DataType: 'String',
+        //         StringValue: 'Transactional'
+        //     }
+        // }
+    };
+    console.log("params=>" , params)
+
+    // Create promise and SNS service object
+    var publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
+
+    // Handle promise's fulfilled/rejected states
+    publishTextPromise.then(
+        function (data) {
+            console.log("MessageID is " + data.MessageId);
+        }).catch(
+            function (err) {
+                console.error(err, err.stack);
+            });
+}
+
 

@@ -25,7 +25,6 @@ const userSchema = new Schema({
         type: String,
         sparse: true,
         unique: true,
-        required: true,
         trim: true,
         lowercase: true,
     },
@@ -34,7 +33,7 @@ const userSchema = new Schema({
     },
     login_type: {
         type: String,
-        enum: ["email", "google", "facebook", "apple"],
+        enum: ["email", "google", "facebook", "mobile"],
     },
     google_account_id: {
         type: String,
@@ -65,6 +64,11 @@ const userSchema = new Schema({
         type:Boolean,
         default: true
     },
+    role: {
+        type: String,
+        required: true,
+        enum: ["user","manager", "employee", "admin", "superadmin"],
+      },
     access_token: {
         type: String,
     },

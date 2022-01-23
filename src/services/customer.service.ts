@@ -60,6 +60,8 @@ export class CustomerService extends BaseService {
         options = { mainAadhaar: mainAadhaar };
       }
 
+
+
       let result = await db.Customers.findOne(options).exec();
       if (this._.isNil(result)) throw("customer not found")
 
@@ -220,14 +222,19 @@ export class CustomerService extends BaseService {
 
   uploadOldUserPhoto = async (data, url) => {
     try {
-      const { photo_key } = data
-      const result = await db.OldCustomers.findOne({ "mainAadhaar": data.mainAadhaar }, { new: true });
+      const { photo_key, mainAadhaar } = data
+      const result = await db.OldCustomers.findOne({ "mainAadhaar": mainAadhaar }, { new: true });
       const query = { "_id": result._id }
-      const option = { new: true }
+      const option = { new: true, returnNewDocument: true }
       if (photo_key === "InstalationLetter") {
-        await db.OldCustomers.findOneAndUpdate(query, { $set: { InstalationLetter: url, installtatus:"Complete" } }, option);
+        await db.OldCustomers.findOneAndUpdate(query, { $set: { InstalationLetter: url, installtatus: "Complete" } }, option);
       }
-
+      else if (photo_key === "satisfactionLetter") {
+        await db.OldCustomers.findOneAndUpdate(query, { $set: { satisfactionLetter: url } }, option);
+      }
+      else {
+        await db.OldCustomers.findOneAndUpdate(query, { $set: { otherLetter: url } }, option);
+      }
       return this.RESP("success", "Old Customer photo uploaded successfully");
     } catch (error) {
       console.log("error", error)
