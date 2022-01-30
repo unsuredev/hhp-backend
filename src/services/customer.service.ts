@@ -26,7 +26,6 @@ export class CustomerService extends BaseService {
       const { _id } = value.data
       const query = { "_id": _id }
       const option = { new: true }
-      console.log("data", _id, value.data)
       const result = await db.Customers.findOneAndUpdate(query, value.data, option);
       if (result) {
         return this.RESP("success", "customer data updated successfully", result);
@@ -59,8 +58,6 @@ export class CustomerService extends BaseService {
       else {
         options = { mainAadhaar: mainAadhaar };
       }
-
-
 
       let result = await db.Customers.findOne(options).exec();
       if (this._.isNil(result)) throw("customer not found")
@@ -111,19 +108,32 @@ export class CustomerService extends BaseService {
 
   statsByAgent = async (agent: any) => {
     try {
-      const { mainAgent } = agent
-      const result = await db.Customers.aggregate([
+      const {user}=agent
+      const result = await db.Customers.find({ "mainAgent": user.name });
+      const result1 = await db.OldCustomers.find({ "mainAgent": user.name });
+      const list = await db.Customers.find({
+        mainAgent: user.name,
+        'consumerNo':
         {
-          $match: {
-            "mainAgent": mainAgent
-          },
-        },
-      ]);
-      return result;
+          "$nin": [
+            "",
+            null
+          ]
+        }
+      })
+
+      const Data ={
+        newCustomer: result.length,
+        oldCustomer:result1.length,
+        totalConnection:list.length
+
+      }
+      return Data;
     } catch (error) {
       throw error;
     }
   };
+
 
 
 
@@ -148,7 +158,6 @@ export class CustomerService extends BaseService {
     try {
       //@ts-ignore
       let existCustomer = await db.Customers.findOne({ "_id": Id }).exec();
-      console.log("id", existCustomer)
       if (this._.isNil(existCustomer)) {
         throw "Customer not found";
       }
@@ -157,11 +166,8 @@ export class CustomerService extends BaseService {
         }
         //@ts-ignore
         let trashResult = await db.trashUsers.create(trashCustomer)
-        console.log("trash -res", trashResult)
         let result = await db.Customers.findByIdAndRemove(Id).exec();
-        console.log("remove", result)
         if (result.name == null) throw "customer not found";
-        console.log(result)
         return this.RESP("success", "customer deleted successfully", result);
       //}
     } catch (error) {
