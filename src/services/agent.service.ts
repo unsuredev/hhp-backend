@@ -77,6 +77,7 @@ export class AgentService extends BaseService {
 
   getConnectionDetails = async (value) => {
     try {
+      console.log("agent" , value)
       const agentName = value.agent
       const query = { "agent": agentName }
       const option = { new: true }
@@ -126,8 +127,6 @@ export class AgentService extends BaseService {
           totalLight: value.totalLight,
           nonHpOven: value.nonHpOven,
           hpOven: value.hpOven
-
-
         }, option
       });
 
@@ -149,23 +148,23 @@ export class AgentService extends BaseService {
       const result = await db.Connection.findOneAndUpdate(query, connectionData, option);
 
 
-
       const salesData = {
-        agent: result.agent,
-        bplOven: result.bplOven,
-        hpOven: result.hpOven,
-        load: result.load,
-        nonHpOven: result.nonHpOven,
-        paidAmount: result.paidAmount,
-        paidLight: result.paidLight,
-        pipe: result.pipe,
-        regulator: result.regulator,
-        remarks: result.remarks,
-        totalAmount: result.totalAmount,
-        totalConnection: result.totalConnection,
-        totalLight: result.totalLight
+        agent: value.agent,
+        bplOven: value.bplOven,
+        hpOven: value.hpOven,
+        load: value.load,
+        nonHpOven: value.nonHpOven,
+        paidAmount: value.paidAmount,
+        paidLight: value.paidLight,
+        pipe: value.pipe,
+        regulator: value.regulator,
+        remarks: value.remarks,
+        totalAmount: value.totalAmount,
+        totalConnection: value.totalConnection,
+        totalLight: value.totalLight
       }
       const salesHistory = await db.SalesHistory.create(salesData)
+      
 
       if (this._.isNil(salesHistory)) {
         throw new Error("Sales history Creation failed");
@@ -176,7 +175,6 @@ export class AgentService extends BaseService {
       const ncDelivery = resultNew.toObject()
       //@ts-ignore
       ncDelivery.agent = value.agent
-
       //@ts-ignore
       ncDelivery.totalLod = parseInt(ncDelivery.totalLod) + parseInt(value.load)
       //@ts-ignore
@@ -192,7 +190,6 @@ export class AgentService extends BaseService {
       //@ts-ignore
       ncDelivery.totalLight = parseInt(ncDelivery.totalLight) + parseInt(value.paidLight)
       //@ts-ignore
-
       ncDelivery.totalAmount = parseInt(ncDelivery.totalAmount) + parseInt(value.paidAmount)
 
       delete ncDelivery.__v
@@ -201,7 +198,6 @@ export class AgentService extends BaseService {
 
       const data = await db.NCdelivery.findOneAndUpdate({ "_id": Id }, ncDelivery);
       //@ts-ignore
-
       const ncHistory = await db.NCdeliveryHistory.create(ncDelivery)
       console.log("ncHistory", ncHistory)
       return this.RESP("success", "updated connection data successfully", { connection: data });
@@ -227,7 +223,28 @@ export class AgentService extends BaseService {
 
   getAllAgentSales = async () => {
     try {
-      const result = await db.Connection.find().exec();
+      // fixd pricing document by id 
+      const pricing:any= await db.Price.findOne({_id:"61a216bc04bd7fbf514f4481"})
+
+      console.log("pricing", pricing)
+      let connectionData: any = await db.Connection.find().exec();
+      let result = []
+      if (connectionData.length != 0) {
+        for (const connection of connectionData) {
+          const intallationComplete = await db.Customers.find({
+            mainAgent: connection.agent,installtatus:"Complete"})
+          const consumer = await db.Customers.find({ mainAgent: connection.agent })
+          let newResult = connection.toObject();
+            newResult['installationComplete']=intallationComplete.length,
+            newResult['totalRegistration']=consumer.length
+            newResult['installationPending']=connection.load-intallationComplete.length,
+            newResult['amountDue']=connection.nonHpOven*pricing.nonHpOvenPricing+connection.hpOven*pricing.hpOvenPricing-connection.paidAmount
+            console.log("connection", connection.nonHpOven , connection.hpOven, connection.paidAmount)
+
+          result.push(newResult)
+        }
+      }
+
       return this.RESP("success", "All agents connection  details successfully", result);
     } catch (error) {
       throw error;

@@ -15,6 +15,12 @@ const NCdeliverySchema = new Schema(
         agent:{
             type:String
         },
+        totalConnection:{
+            type:Number
+        },
+        installationCompletee:{
+            type:Number
+        },
         totalLod: {
             type: Number,
         },

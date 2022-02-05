@@ -9,7 +9,9 @@ export default function agentRoutes():Router {
     agentRouter.get("/agent/getall", cors(), AGENT.getAgent);
     agentRouter.get("/agent/getall/active", cors(), AGENT.getActiveAgent);
     agentRouter.post("/agent/connection/add",cors(), AGENT.registerConnection);
+    //retruns all connection details
     agentRouter.post("/agent/connection/get", cors(), AGENT.getConnection);
+    //update connection data
     agentRouter.post("/agent/connection/update", cors(), AGENT.updateConnection);
     agentRouter.post("/agent/slaes/getall", cors(), AGENT.getSales);
     agentRouter.get("/agent/slaes/all", cors(), AGENT.getAllSales);

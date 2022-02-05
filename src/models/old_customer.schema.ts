@@ -70,7 +70,7 @@ const OldCustomerSchema = new Schema(
     installtatus:{
       type: String,
       required: false,
-      default: 'Not Complete'
+      default: 'Not complete'
     },
     satisfactionLetter:{
       type: String,

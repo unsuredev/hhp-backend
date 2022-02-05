@@ -121,11 +121,14 @@ export class CustomerService extends BaseService {
           ]
         }
       })
-
+      const installationdata = await db.Customers.find({mainAgent: user.name ,installtatus:"Complete" })
+      const connectionData:any = await db.Connection.findOne({agent:user.name})
       const Data ={
         newCustomer: result.length,
         oldCustomer:result1.length,
-        totalConnection:list.length
+        totalConnection:list.length,
+        totalLoad:connectionData.load,
+        installationComplete:installationdata.length
 
       }
       return Data;
@@ -135,6 +138,38 @@ export class CustomerService extends BaseService {
   };
 
 
+  pendingCustomer = async (agent: any) => {
+    try {
+
+      const { user } = agent
+      const installationdata = await db.Customers.find({
+        mainAgent: user.name,
+        'consumerNo':
+        {
+          "$nin": [
+            "",
+            null
+          ]
+        },
+        installtatus: "Not complete"
+      })
+
+      return this.RESP("success", "Fetched pending customer details successfully", installationdata);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
+  NewCustomer = async (agent: any) => {
+    try {
+      const { user } = agent
+      const installationdata = await db.Customers.find({ mainAgent: user.name })
+      return this.RESP("success", "Fetched all customer details successfully", installationdata);
+    } catch (error) {
+      throw error;
+    }
+  };
 
 
 
