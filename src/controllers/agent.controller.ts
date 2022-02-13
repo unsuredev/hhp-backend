@@ -178,6 +178,19 @@ export class AgentController extends BaseController {
 
 
 
+  // pending fingerprint list
+  pendingFingerprint = async (req: Request, res: Response, next: Next) => {
+    try {
+        let result = await this.agentService.pendingFingerprint(req.body)
+        return res.send(result);
+    } catch (error) {
+        return res.status(400).json(this.ERR({
+            status: "failed",
+            message: "Unable fetch pending fingerprint list ",
+            errorMessage: error.message
+        }, error));
+    }
+};
 
 
 }

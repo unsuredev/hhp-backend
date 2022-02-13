@@ -160,7 +160,7 @@ export class CustomerService extends BaseService {
     }
   };
 
-
+//all new customer 
   NewCustomer = async (agent: any) => {
     try {
       const { user } = agent
@@ -170,6 +170,28 @@ export class CustomerService extends BaseService {
       throw error;
     }
   };
+
+
+  //only  customer list 
+  onlyConsumer = async (agent: any) => {
+    try {
+      const { user } = agent
+      const installationdata = await db.Customers.find({
+        mainAgent: user.name,
+        'consumerNo':
+        {
+          "$nin": [
+            "",
+            null
+          ]
+        }
+      })
+      return this.RESP("success", "Fetched all customer details successfully", installationdata);
+    } catch (error) {
+      throw error;
+    }
+  };
+
 
 
 

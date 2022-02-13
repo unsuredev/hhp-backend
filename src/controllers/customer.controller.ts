@@ -140,6 +140,20 @@ allNewCustomer = async (req: Request, res: Response, next: Next) => {
   }
 };
 
+//all only customer list 
+onlyConsumerlist = async (req: Request, res: Response, next: Next) => {
+  try {
+    // const agentName = await this.agentJoiSchema.validateAsync(req.body, this.joiOptions);
+    const result = await this.customerService.onlyConsumer(req.body);
+    return res.status(200).json({ data: result });
+  } catch (error) {
+    return res.status(400).json(this.ERR({
+      status: "failed",
+      message: "Unable to find pending Consumer list ",
+      errorMessage: error.message
+    }, error));
+  }
+};
 
 
 

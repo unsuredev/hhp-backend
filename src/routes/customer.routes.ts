@@ -13,13 +13,13 @@ export default function customerRoutes(): Router {
     customerRouter.post("/customer/getCustomerStats",cors(), CUSTOMER.customerStatsData);
     //agent dashboard
     customerRouter.post("/customer/customerbyagent",cors(), CUSTOMER.customerByAgent);
-
     //agent's pending customer list 
     customerRouter.post("/agent/pendingcustomer",cors(), CUSTOMER.pendingCustomer);
-
-    // all new consumer
-    customerRouter.post("/agent/allconsumer",cors(), CUSTOMER.allNewCustomer);
-
+  // all consumer
+  customerRouter.post("/agent/allconsumer", cors(), CUSTOMER.allNewCustomer);
+  // only consumer list 
+  customerRouter.post("/agent/onlyconsumer", cors(), CUSTOMER.onlyConsumerlist);
+  
     customerRouter.post("/customer/count",cors(), CUSTOMER.getLiveStats);
     customerRouter.post("/customer/delete",cors(), CUSTOMER.deleteCustomer);
     customerRouter.post("/customer/update",cors(), CUSTOMER.updateCustomer);
@@ -27,8 +27,6 @@ export default function customerRoutes(): Router {
     customerRouter.get("/customer/trashCustomer",cors(), CUSTOMER.getAllTrashCustomer);
     customerRouter.post("/customer/uploadimages", cors(),  uploadMulter, uploadFileCustomerPhoto,CUSTOMER.uploadUserPhoto);
     customerRouter.post("/old/customer/uploadimages", cors(),  uploadMulter, uploadFileCustomerPhoto,CUSTOMER.uploadOldUserPhoto);
-
-
     return customerRouter;
 }
   

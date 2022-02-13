@@ -22,7 +22,8 @@ export const db = {
     SalesHistory:model<dbTypes.ISalesHistory>("SalesHistory", salesHIstorySchema.salesHIstorySchema, "hhp_salesHistory"),
     NCdelivery:model<dbTypes.INCdelivery>("NCdeliveryS", NCdeliverySchema.NCdeliverySchema, "hhp_ncdelivery"),
     NCdeliveryHistory:model<dbTypes.INCdelivery>("NCdeliveryHistory", NCdeliverySchema.NCdeliverySchema, "ncdelivery_history"),
-    refilSale:model<dbTypes.IRefilSaleSchema>("Refilsale", RefilSaleSchema.RefilSaleSchema, "hhp_refilsale")
+    refilSale:model<dbTypes.IRefilSaleSchema>("Refilsale", RefilSaleSchema.RefilSaleSchema, "hhp_refilsale"),
+    PendingFingerprint:model<dbTypes.ICustomer>("PendingFingerprint", CUSTOMERSCHEMAS.CustomerSchema, "hhp_pendingfingerprint")
 
 };
 

@@ -226,7 +226,6 @@ export class AgentService extends BaseService {
       // fixd pricing document by id 
       const pricing:any= await db.Price.findOne({_id:"61a216bc04bd7fbf514f4481"})
 
-      console.log("pricing", pricing)
       let connectionData: any = await db.Connection.find().exec();
       let result = []
       if (connectionData.length != 0) {
@@ -273,10 +272,7 @@ export class AgentService extends BaseService {
   sendSMS = async (value) => {
     try {
       const {  agent, load,regulator, pipe, hpOven,nonHpOven, light, paidAmount, dueAmount , installationPending } = value.sms
-      console.log("agent" , agent , value)
       let agentDetails:any = await db.Agent.findOne({ name: agent }).exec();
-      console.log("agentDetails" , agentDetails)
-
       const message = `Dear ${agent}, update from JAMAN HP GAS, Your connections has delivered: Load: ${load}, Regulator:${regulator}, Pipe: ${pipe}, Light: ${light}, HP Oven: ${hpOven}, NON HP Oven: ${nonHpOven}, Amount Paid: ${paidAmount},Till today Amount Due: ${dueAmount}, Installation Pending: ${installationPending}`
      const result = await sendSms(message, agentDetails.mobile)
       return this.RESP("success", "SMS sent successfully" );
@@ -284,6 +280,18 @@ export class AgentService extends BaseService {
       throw error;
     }
   }
+
+
+  pendingFingerprint = async (value) => {
+    try {
+      const { user } = value
+      let result: any = await db.PendingFingerprint.find({ mainAgent: user.name }).exec();
+      return this.RESP("success", "Fetched all pending fingerprint  customer successfully", result)
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
 
 }
