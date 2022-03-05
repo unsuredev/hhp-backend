@@ -164,15 +164,29 @@ export interface INCdelivery extends Document {
 
 export interface IRefilSaleSchema extends Document {
     agent:string;
-    cyclinderLoad: number;
-    cyclinderEmpty: number;
-    refilRate: number;
-    ncSale: number;
-    ncSaleRate: number;
+    loadPaid14: number,
+    emptyCycliderRecived14: number,
+    emptyDue14: number,
+    rate14: number,
+    loadPaid19: number,
+    emptyCycliderRecived19: number,
+    emptyDue19: number,
+    rate19: number,
+    loadPaid5: number,
+    emptyCycliderRecived5: number,
+    emptyDue5: number,
+    rate5: number,
+    loadPaid5ftl: number,
+    emptyCycliderRecived5ftl: number,
+    emptyDue5ftl: number,
+    rate5ftl: number,
+    spCategory:string,
+    spQantity: number,
+    spRate: number,
     remarks:string;
     amountPaid: number;
     totalAmount: number;
     totalAmountDue: number;
-    yesterDayAmount:number;
+    totalAmountPaid: number
 }
 

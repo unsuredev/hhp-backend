@@ -36,11 +36,11 @@ export class UserController extends BaseController {
 
     private addNewUserJoiSchema = Joi.object()
         .keys({
-            email: Joi.when("login_type", {is: "email", then: Joi.number().required()}),
+            email: Joi.when("login_type", {is: "email", then: Joi.string().required()}),
             password: Joi.string().required(),
             name: Joi.string().required(),
             login_type: Joi.string().valid("email", "mobile", "google", "facebook").required(),
-            mobile:  Joi.when("login_type", {is: "mobile", then: Joi.string().required()}),
+            mobile:  Joi.when("login_type", {is: "mobile", then: Joi.number().required()}),
             })
         .required();
 

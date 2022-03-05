@@ -12,31 +12,72 @@ const schemaOptions: SchemaOptions = {
 };
 const RefilSaleSchema = new Schema(
     {
-        agent:{
-            type:String,
-            required: true ,
+        agent: {
+            type: String,
+            required: true,
             unique: true,
         },
-        cyclinderLoad: {
+        //load for 14 KG
+        loadPaid14: {
             type: Number,
         },
-        cyclinderEmpty: {
+        emptyCycliderRecived14: {
             type: Number,
         },
-        refilRate: {
+        emptyDue14: {
             type: Number,
         },
-        ncSale: {
+        rate14: {
             type: Number,
         },
-        ncSaleRate: {
+        //load for 19 KG
+        loadPaid19: {
             type: Number,
         },
-        amountPaid: {
+        emptyCycliderRecived19: {
             type: Number,
         },
-        remarks: {
+        emptyDue19: {
+            type: Number,
+        },
+        rate19: {
+            type: Number,
+        },
+        //load for 5 KG
+        loadPaid5: {
+            type: Number,
+        },
+        emptyCycliderRecived5: {
+            type: Number
+        },
+        emptyDue5: {
+            type: Number
+        },
+        rate5: {
+            type: Number
+        },
+        //load forFTL
+        loadPaid5ftl: {
+            type: Number
+        },
+        emptyCycliderRecived5ftl: {
+            type: Number
+        },
+        emptyDue5ftl: {
+            type: Number
+        },
+        rate5ftl: {
+            type: Number
+        },
+        //load SPECIAL 
+        spCategory:{
             type: String,
+        },
+        spQantity:{
+            type:Number
+        },
+        spRate: {
+            type: Number
         },
         totalAmount: {
             type: Number,
@@ -47,6 +88,12 @@ const RefilSaleSchema = new Schema(
         yesterDayAmount: {
             type: Number,
         },
+        totalAmountPaid: {
+            type: Number,
+        },
+        remarks: {
+            type: String,
+        }
     },
     {
         timestamps: true

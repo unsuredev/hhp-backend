@@ -60,13 +60,12 @@ export class RefilSaleController extends BaseController {
     // update RefilSale
     updateRefilSale = async (req: Request, res: Response, next: Next) => {
         try {
-            const { _id } = req.body
             let result = await this.refilSaleService.updateRefilSale(req.body)
             return res.status(200).json({ data: result });
         } catch (error) {
             return res.status(400).json(this.ERR({
                 status: "failed",
-                message: "Unable to update refilSaleService",
+                message: "Unable to update refilSale dara",
                 errorMessage: error.message
             }, error));
         }
