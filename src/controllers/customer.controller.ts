@@ -180,11 +180,17 @@ onlyConsumerlist = async (req: Request, res: Response, next: Next) => {
       let result = await this.customerService.updateCustomer(req.body)
       return res.status(200).json({ data: result });
     } catch (error) {
-      return res.status(400).json(this.ERR({
-        status: "failed",
-        message: "Unable to update consumer",
-        errorMessage: error.message
-      }, error));
+     
+      return res.status(400).json(
+        this.ERR(
+          {
+            status: 'failed',
+            message: 'unable to upload photo',
+            errorMessage: error.message
+          },
+          error
+        )
+      );
     }
   }
 

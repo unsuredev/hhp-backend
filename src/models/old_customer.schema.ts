@@ -85,7 +85,9 @@ const OldCustomerSchema = new Schema(
       required: false,
     },
   },
-  { timestamps: {} }
+  {
+    timestamps: true
+}
 );
 
 export { OldCustomerSchema };

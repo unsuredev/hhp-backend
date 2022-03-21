@@ -23,10 +23,16 @@ export class CustomerService extends BaseService {
 
   updateCustomer = async (value: any) => {
     try {
-      const { _id } = value.data
-      const query = { "_id": _id }
+      const { mainAadhaar , fileNo } = value
+      const query = { "mainAadhaar": mainAadhaar }
       const option = { new: true }
-      const result = await db.Customers.findOneAndUpdate(query, value.data, option);
+      let existFile
+      console.log("fileNo", typeof(fileNo) , fileNo)
+      if(fileNo!=''|| fileNo!=undefined || fileNo!=null ){
+       existFile = await db.Customers.findOne({ "fileNo": fileNo }).exec();
+      }
+      if (!this._.isNil(existFile.fileNo)){throw new Error("File No already present ")}
+      const result = await db.Customers.findOneAndUpdate(query, value, option);
       if (result) {
         return this.RESP("success", "customer data updated successfully", result);
       }

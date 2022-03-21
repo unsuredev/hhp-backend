@@ -61,7 +61,12 @@ export const API_ERROR_CODES = {
         "detail": "No data found!",
         "isOperational": true,
     },
-    
+
+    "E_UNIQUE_REGNO__10000":{
+        "toastMessage": "Registeration No already Exist",
+        "detail": "Registeration No already exist",
+        "isOperational": true,
+    }
 
 
 }

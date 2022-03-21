@@ -57,7 +57,6 @@ const CustomerSchema = new Schema(
     },
     regNo: {
       type: String,
-      trim: true,
       unique: true,
     },
     remarks: {
@@ -84,9 +83,32 @@ const CustomerSchema = new Schema(
       type: String,
       required: false,
       default: 'Not complete'
-    }
+    },
+    fileNo:{
+      required: false,
+      type:Number,
+      unique: true,
+      index: true,
+      sparse: true, 
+    },
+    isSingleWomen:{
+        type:Boolean,
+        default: true
+    
+    },
+    contactNumber: {
+      type: String,
+      required: false,
+    },
+    registrationStatus: {
+      type: String,
+        required: false,
+    },
   },
-  { timestamps: {} }
+  {
+    timestamps: true
+}
+  
 );
 
 export { CustomerSchema };

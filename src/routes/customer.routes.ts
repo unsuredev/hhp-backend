@@ -16,10 +16,9 @@ export default function customerRoutes(): Router {
     //agent's pending customer list 
     customerRouter.post("/agent/pendingcustomer",cors(), CUSTOMER.pendingCustomer);
   // all consumer
-  customerRouter.post("/agent/allconsumer", cors(), CUSTOMER.allNewCustomer);
+    customerRouter.post("/agent/allconsumer", cors(), CUSTOMER.allNewCustomer);
   // only consumer list 
-  customerRouter.post("/agent/onlyconsumer", cors(), CUSTOMER.onlyConsumerlist);
-  
+    customerRouter.post("/agent/onlyconsumer", cors(), CUSTOMER.onlyConsumerlist);
     customerRouter.post("/customer/count",cors(), CUSTOMER.getLiveStats);
     customerRouter.post("/customer/delete",cors(), CUSTOMER.deleteCustomer);
     customerRouter.post("/customer/update",cors(), CUSTOMER.updateCustomer);
