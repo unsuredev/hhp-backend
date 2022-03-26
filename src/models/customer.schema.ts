@@ -67,6 +67,9 @@ const CustomerSchema = new Schema(
       type: String,
       trim: true,
     },
+    updatedBy: {
+      type: String
+    },
     satisfactionLetter:{
       type: String,
       required: false,
@@ -85,15 +88,14 @@ const CustomerSchema = new Schema(
       default: 'Not complete'
     },
     fileNo:{
-      required: false,
-      type:Number,
+      type: String,
       unique: true,
-      index: true,
-      sparse: true, 
+      required: true,
+      trim: true,
     },
     isSingleWomen:{
         type:Boolean,
-        default: true
+        default: false
     
     },
     contactNumber: {

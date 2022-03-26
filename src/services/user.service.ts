@@ -78,6 +78,7 @@ export class UserService extends BaseService {
                 if (!isMatch) throw new Error("E_USER_S_10003");
             }
          
+            user.is_online=true
             user.access_token = generate_tokens("ACCESS_TOKEN", { user_id: user.user_id ,name:user.name ,role:user.role});
             user.last_login_timestamp=new Date()
             const result = await user.save();
