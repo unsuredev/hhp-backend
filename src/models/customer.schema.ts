@@ -87,12 +87,6 @@ const CustomerSchema = new Schema(
       required: false,
       default: 'Not complete'
     },
-    fileNo:{
-      type: String,
-      unique: true,
-      required: true,
-      trim: true,
-    },
     isSingleWomen:{
         type:Boolean,
         default: false
