@@ -86,5 +86,18 @@ export class RefilSaleController extends BaseController {
         }
     };
 
+        // RefilSale History for based on agent
+        getRefilSaleHistory = async (req: Request, res: Response) => {
+            try {
+                const result = await this.refilSaleService.getRefilSaleHistory(req.body);
+                return res.status(200).json({result });
+            } catch (error) {
+                return res.status(400).json(this.ERR({
+                    status: "failed",
+                    message: "Unable to get refil sales history",
+                    errorMessage: error.message
+                }, error));
+            }
+        };
 
 }

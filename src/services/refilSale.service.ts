@@ -173,8 +173,18 @@ export class RefilSaleService extends BaseService {
         }
     }
 
-
-
+//Get refilsale history
+getRefilSaleHistory= async (value) => {
+    try {
+        const result = await db.refilSaleHistory.find({ agent: value.agent })
+        if (result.length===0) {
+            throw new Error("No result  Found");
+        }
+        return this.RESP("success", "Fetched agent refilsale history successfully", result);
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 }

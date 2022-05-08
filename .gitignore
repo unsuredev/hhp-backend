@@ -25,7 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 .idea
 
-
+.history
 
 # TypeScript v1 declaration files
 typings/

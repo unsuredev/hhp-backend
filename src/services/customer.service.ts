@@ -25,6 +25,14 @@ export class CustomerService extends BaseService {
             const { mainAadhaar } = value;
             console.log("data", value);
             const existFile = await db.Customers.findOne({ mainAadhaar: mainAadhaar });
+            console.log("existFile", existFile)
+            const newResult = await db.Customers.findOne({ regNo: existFile.regNo });
+
+            if (newResult ) {
+                throw new Error("File No already present ");
+            }
+        
+            console.log("existFile", existFile)
             if (existFile.regNo && existFile.regNo===value.regNo ) {
                     throw new Error("File No already present ");
                 }
@@ -104,6 +112,38 @@ export class CustomerService extends BaseService {
         }
     };
 
+
+    lastUpdatedRecord= async (startDateISO, endDateISO) => {
+        try {
+            const result = await db.Customers.aggregate([
+                {
+                    $match: {
+                        updatedAt: {
+                            $gte: startDateISO.toDate(),
+                            $lt: endDateISO.toDate(),
+                        },
+                    },
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt", timezone: "+05:30" } },
+                        customers: { $push: "$$ROOT" },
+                    },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        join_date: "$_id",
+                        customers: 1,
+                    },
+                },
+                { $sort: { join_date: -1 } },
+            ]);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    };
     statsByAgent = async (agent: any) => {
         try {
             const { user } = agent;

@@ -95,6 +95,22 @@ export class CustomerController extends BaseController {
       }, error));
     }
   }
+
+  lastUpdatedcustomers = async (req: Request, res: Response, next: Next) => {
+    try {
+      const validatedData = req.body
+      const startDateISO = moment(validatedData.start_date);
+      const endDateISO = moment(validatedData.end_date).endOf("day"); // Timezone issue
+      const result = await this.customerService.lastUpdatedRecord(startDateISO, endDateISO);
+      return res.status(200).json({ data: result });
+    } catch (error) {
+      return res.status(400).json(this.ERR({
+        status: "failed",
+        message: "Unable to find last updated records ",
+        errorMessage: error.message
+      }, error));
+    }
+  }
   customerByAgent = async (req: Request, res: Response, next: Next) => {
     try {
       // const agentName = await this.agentJoiSchema.validateAsync(req.body, this.joiOptions);

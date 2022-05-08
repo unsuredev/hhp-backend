@@ -2,6 +2,7 @@ import BaseController from "../policies/BaseController";
 import { Request, Response, NextFunction as Next } from "express";
 import * as Joi from "@hapi/joi";
 import { PricingService } from "../services/pricing.service";
+import * as moment from "moment";
 
 export class PricingController extends BaseController {
     constructor(private pricingService: PricingService = new PricingService()) {
@@ -127,5 +128,90 @@ export class PricingController extends BaseController {
             }, error));
         }
     };
+
+
+
+// TRANSACTION
+
+
+
+    // GET Add TRANSACTION  
+    addTodayTransaction = async (req: Request, res: Response, next: Next) => {
+        try {
+            const result = await this.pricingService.addTodayTransaction(req.body)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to add transaction",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+    // GET TODAY TRANSACTION  
+    getTodayTransaction = async (req: Request, res: Response, next: Next) => {
+        try {
+            const validatedData = req.body
+            const startDateISO = moment(validatedData.start_date);
+            const endDateISO = moment(validatedData.end_date).endOf("day");
+            const result = await this.pricingService.getTodayTransaction(startDateISO, endDateISO)
+            let httpStatusCode = 200
+            return res.status(httpStatusCode).json(result);
+        } catch (error) {
+            return res.status(400).json(this.ERR({
+                status: "failed",
+                message: "Unable to get transaction",
+                errorMessage: error.message
+            }, error));
+        }
+    };
+
+
+        // Update TODAY TRANSACTION  
+        updateTodayTransaction = async (req: Request, res: Response, next: Next) => {
+            try {
+                const result = await this.pricingService.updateTodayTransaction(req.body)
+                let httpStatusCode = 200
+                return res.status(httpStatusCode).json(result);
+            } catch (error) {
+                return res.status(400).json(this.ERR({
+                    status: "failed",
+                    message: "Unable to update transaction",
+                    errorMessage: error.message
+                }, error));
+            }
+        };
+    
+
+
+
+        //  TRANSACTION  history
+        todayTransactionHistory = async (req: Request, res: Response, next: Next) => {
+            try {
+                const result = await this.pricingService.todayTransactionHistory(req.body)
+                let httpStatusCode = 200
+                return res.status(httpStatusCode).json(result);
+            } catch (error) {
+                return res.status(400).json(this.ERR({
+                    status: "failed",
+                    message: "Unable to get transaction history",
+                    errorMessage: error.message
+                }, error));
+            }
+        };
+    
+
+
+
+
+
+
+
+
+
+
 
 }

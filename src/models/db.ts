@@ -10,6 +10,8 @@ import * as PricingSchema from './pricing.schema';
 import * as salesHIstorySchema from './salesHistory.schema'
 import * as NCdeliverySchema from './ncdelivery.schema';
 import * as RefilSaleSchema from './refilSale.schema'
+import * as TransactionSchema from './transaction.schema'
+
 
 export const db = {
     Users: model<dbTypes.IUser>("Users", SCHEMAS.userSchema, "hhp_users"),
@@ -24,7 +26,9 @@ export const db = {
     NCdeliveryHistory:model<dbTypes.INCdelivery>("NCdeliveryHistory", NCdeliverySchema.NCdeliverySchema, "ncdelivery_history"),
     refilSale:model<dbTypes.IRefilSaleSchema>("refilSale", RefilSaleSchema.RefilSaleSchema, "hhp_refilsale"),
     refilSaleHistory:model<dbTypes.IRefilSaleSchema>("refilSaleHistory", RefilSaleSchema.RefilSaleSchema, "hhp_refilSaleHistory"),
-    PendingFingerprint:model<dbTypes.ICustomer>("PendingFingerprint", CUSTOMERSCHEMAS.CustomerSchema, "hhp_pendingfingerprint")
+    PendingFingerprint:model<dbTypes.ICustomer>("PendingFingerprint", CUSTOMERSCHEMAS.CustomerSchema, "hhp_pendingfingerprint"),
+    Transaction:model<dbTypes.ITransaction>("transaction", TransactionSchema.TransactionSchema, "hhp_transaction"),
+    TransactionHistory:model<dbTypes.ITransaction>("transactionHistory", TransactionSchema.TransactionSchema, "transaction_history")
 
 };
 

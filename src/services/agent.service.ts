@@ -238,8 +238,6 @@ export class AgentService extends BaseService {
             newResult['totalRegistration']=consumer.length
             newResult['installationPending']=connection.load-intallationComplete.length,
             newResult['amountDue']=connection.nonHpOven*pricing.nonHpOvenPricing+connection.hpOven*pricing.hpOvenPricing-connection.paidAmount
-            console.log("connection", connection.nonHpOven , connection.hpOven, connection.paidAmount)
-
           result.push(newResult)
         }
       }

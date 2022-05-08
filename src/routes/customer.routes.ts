@@ -11,6 +11,8 @@ export default function customerRoutes(): Router {
     customerRouter.post("/customer/add",cors(), CUSTOMER.registerACustomer);
     customerRouter.post("/customer/find", cors(),CUSTOMER.searchCustomer);
     customerRouter.post("/customer/getCustomerStats",cors(), CUSTOMER.customerStatsData);
+    //last updated documents
+    customerRouter.post("/customer/lastupdatedRecords",cors(), CUSTOMER.lastUpdatedcustomers);
     //agent dashboard
     customerRouter.post("/customer/customerbyagent",cors(), CUSTOMER.customerByAgent);
     //agent's pending customer list 

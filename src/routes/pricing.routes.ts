@@ -14,6 +14,12 @@ export default function pricingRoutes():Router {
     pricingRouter.get("/ncdelivery/get", cors(), PRICE.getNcdelivery);
     pricingRouter.post("/ncdelivery/update", cors(), PRICE.updateNcdelivery);
     pricingRouter.get("/ncdelivery/all", cors(), PRICE.getAllNcdelivery);
+    // TRANSACTION
+    pricingRouter.post("/transaction/add", cors(), PRICE.addTodayTransaction);
+    pricingRouter.post("/transaction/get", cors(), PRICE.getTodayTransaction);
+    pricingRouter.post("/transaction/update", cors(), PRICE.updateTodayTransaction);
+    pricingRouter.get("/transaction/history", cors(), PRICE.todayTransactionHistory);
+
 
 
 

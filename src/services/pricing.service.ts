@@ -1,14 +1,14 @@
-import { INCdelivery } from './../models/dbTypes.d';
+import { INCdelivery, ITransaction } from './../models/dbTypes.d';
 import BaseService from "../policies/BaseService";
-import { IPricing} from "../models/dbTypes";
+import { IPricing } from "../models/dbTypes";
 import { db } from "../models/db";
 
 
 export class PricingService extends BaseService {
-  constructor() {
-    super();
-  }
-    registerPricing = async (price:IPricing) => {
+    constructor() {
+        super();
+    }
+    registerPricing = async (price: IPricing) => {
         try {
             const enc = { ...price };
             let result = await db.Price.create(enc)
@@ -108,19 +108,118 @@ export class PricingService extends BaseService {
 
 
 
-        // GET NC history  
+    // GET NC history  
 
-        getAllNcDelivery = async () => {
+    getAllNcDelivery = async () => {
+        try {
+            const result = await db.NCdeliveryHistory.find()
+            return this.RESP("success", " NC history data successfully", { NcDetails: result });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    //*****************TRANSACTION***************************** */
+
+
+
+
+    // ADD TRANSACTION  
+    addTodayTransaction = async (data: ITransaction) => {
+        try {
+            const result = await db.Transaction.create(data)
+            return this.RESP("success", "Transaction added successfully", { transaction: result });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    // GET TRANSACTION  
+    getTodayTransaction = async (startDateISO, endDateISO) => {
+        try {
+            const result = await db.Transaction.findOne({
+                _id: "62765bd2be5659d69ee06410",
+            });
+            const yesterdayInfo:any = await db.TransactionHistory.find().sort({ _id: -1 }).limit(1)
+            const TodayAmount = await db.refilSale.aggregate([
+                {
+                    $match: {
+                        updatedAt: {
+                            $gte: startDateISO.toDate(),
+                            $lt: endDateISO.toDate(),
+                        },
+                    },
+                },
+                {
+                    $group: {
+                        _id: null,
+                        todayAmountPaid: { $sum: "$amountPaid" },
+                        totalAmount: { $sum: "$totalAmount" },
+                        count: { $sum: 1 },
+                    },
+                },
+            ]);
+            const TotalAmount = await db.refilSale.aggregate([
+                {
+                    $match: {},
+                },
+                {
+                    $group: {
+                        _id: null,
+                        totalAmountDue: { $sum: "$totalAmountDue" },
+                        count: { $sum: 1 },
+                    },
+                },
+            ]);
+            const newResult = {
+                yesterdaybalance: yesterdayInfo[0].todayClosing,
+                driverfooding:result.driverfooding,
+                drivertips:result.drivertips,
+                extraexpenses:result.extraexpenses,
+                l9payment:result.l9payment,
+                loanaccount:result.loanaccount,
+                remarks:result.remarks,
+                staffsalary:result.staffsalary,
+                svaccount:result.svaccount,
+                todaybalance:result.todaybalance,
+                todayAmountPaid: TodayAmount[0].todayAmountPaid,
+                todaySellAmount: TodayAmount[0].totalAmount,
+                todayDue: TodayAmount[0].totalAmount-TodayAmount[0].todayAmountPaid,
+                grandTotalDue:TotalAmount[0].totalAmountDue
+            }
+            return this.RESP("success", "get transaction details successfully", { transaction: newResult });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    // UPDATE TRANSACTION  
+    updateTodayTransaction = async (data:ITransaction) => {
+        try {
+            const query = {  _id: "62765bd2be5659d69ee06410"}
+            const option = { new: true }
+            const result = await db.Transaction.findOneAndUpdate(query, data, option);
+          await db.TransactionHistory.create(data);
+            return this.RESP("success", "Transaction updated successfully", { transaction: result });
+        } catch (error) {
+            console.log("err", error)
+            throw error;
+        }
+    }
+
+
+        // HISTORY TRANSACTION  
+        todayTransactionHistory = async (data:ITransaction) => {
             try {
-                const result = await db.NCdeliveryHistory.find()
-                return this.RESP("success", " NC history data successfully", { NcDetails: result });
+                const result = await db.TransactionHistory.find().limit(50);
+                return this.RESP("success", "Transaction history get successfully", { transaction: result });
             } catch (error) {
+                console.log("err", error)
                 throw error;
             }
         }
-    
-
-
 
 
 }
