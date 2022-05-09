@@ -23,23 +23,8 @@ export class CustomerService extends BaseService {
     updateCustomer = async (value: any) => {
         try {
             const { mainAadhaar } = value;
-            console.log("data", value);
-            const existFile = await db.Customers.findOne({ mainAadhaar: mainAadhaar });
-            console.log("existFile", existFile)
-            const newResult = await db.Customers.findOne({ regNo: existFile.regNo });
-
-            if (newResult ) {
-                throw new Error("File No already present ");
-            }
-        
-            console.log("existFile", existFile)
-            if (existFile.regNo && existFile.regNo===value.regNo ) {
-                    throw new Error("File No already present ");
-                }
-            
             const query = { mainAadhaar: mainAadhaar };
-            const option = { new: true };
-            const result = await db.Customers.findOneAndUpdate(query, value, option);
+            const result = await db.Customers.findOneAndUpdate(query, value);
             if (result) {
                 return this.RESP("success", "customer data updated successfully", result);
             }
@@ -60,8 +45,6 @@ export class CustomerService extends BaseService {
             } else if (findkey === "consumerNo") {
                 options = { consumerNo: consumerNo };
             } else if (findkey === "regNo") {
-                console.log("regNo",regNo)
-
                 options = { regNo: regNo };
             } else if (findkey === "familyAadhaar") {
                 options = { familyAadhaar: familyAadhaar };
