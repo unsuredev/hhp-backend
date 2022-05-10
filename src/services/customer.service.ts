@@ -27,6 +27,7 @@ export class CustomerService extends BaseService {
             const result = await db.Customers.findOneAndUpdate(query, value);
             if (result) {
                 return this.RESP("success", "customer data updated successfully", result);
+                console.log("result")
             }
         } catch (error) {
             throw error;
