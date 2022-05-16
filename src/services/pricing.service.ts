@@ -154,12 +154,13 @@ export class PricingService extends BaseService {
                 {
                     $group: {
                         _id: null,
-                        todayAmountPaid: { $sum: "$amountPaid" },
-                        totalAmount: { $sum: "$totalAmount" },
+                        todayAmountPaid: { $sum: "$totalAmountPaid" },
+                        totalAmountSell: { $sum: "$totalAmount" },
                         count: { $sum: 1 },
                     },
                 },
             ]);
+            console.log("date" ,startDateISO.toDate(),endDateISO.toDate() , TodayAmount )
             const TotalAmount = await db.refilSale.aggregate([
                 {
                     $match: {},
@@ -173,7 +174,7 @@ export class PricingService extends BaseService {
                 },
             ]);
             const newResult = {
-                yesterdaybalance: yesterdayInfo[0].todayClosing,
+                yesterdaybalance: (yesterdayInfo  && yesterdayInfo.length>0 )?yesterdayInfo[0].todayClosing:0,
                 driverfooding:result.driverfooding,
                 drivertips:result.drivertips,
                 extraexpenses:result.extraexpenses,
@@ -183,12 +184,12 @@ export class PricingService extends BaseService {
                 staffsalary:result.staffsalary,
                 svaccount:result.svaccount,
                 todaybalance:result.todaybalance,
-                todayAmountPaid: TodayAmount[0].todayAmountPaid,
-                todaySellAmount: TodayAmount[0].totalAmount,
-                todayDue: TodayAmount[0].totalAmount-TodayAmount[0].todayAmountPaid,
+                todayAmountPaid: (TodayAmount && TodayAmount.length>0 && TodayAmount[0].todayAmountPaid)?TodayAmount[0].todayAmountPaid:0,
+                todaySellAmount:(TodayAmount && TodayAmount.length>0 && TodayAmount[0].totalAmountSell)? TodayAmount[0].totalAmountSell:0,
+                todayDue:(TodayAmount && TodayAmount.length>0 && TodayAmount[0].totalAmountSell)? TodayAmount[0].totalAmountSell-TodayAmount[0].todayAmountPaid:0,
                 grandTotalDue:TotalAmount[0].totalAmountDue
             }
-            return this.RESP("success", "get transaction details successfully", { transaction: newResult });
+            return this.RESP("success", "Transaction details fetched successfully", { transaction: newResult });
         } catch (error) {
             throw error;
         }
