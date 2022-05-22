@@ -142,7 +142,7 @@ export class PricingService extends BaseService {
                 _id: "62765bd2be5659d69ee06410",
             });
             const yesterdayInfo:any = await db.TransactionHistory.find().sort({ _id: -1 }).limit(1)
-            const TodayAmount = await db.refilSale.aggregate([
+            const TodayAmount = await db.refilSaleHistory.aggregate([
                 {
                     $match: {
                         updatedAt: {
