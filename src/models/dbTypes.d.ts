@@ -48,6 +48,12 @@ export interface ICustomer extends Document {
     otherLetter: string;
     installStatus: string;
     registeredAgencyName: string;
+    updatedBy:string
+    installtatus:string
+    isSingleWomen:boolean
+    isFreeDelivery:boolean
+    contactNumber:string
+    registrationStatus:string
 }
 
 export interface IOldCustomer extends Document {

@@ -53,8 +53,13 @@ const ConnectionSchema = new Schema(
         remarks:
         {
             type: String
+        },
+        nonHpOvenPricing:  {
+            type: String
+        },
+        hpOvenPricing:  {
+            type: String
         }
-    },
     {
         timestamps: true
     }

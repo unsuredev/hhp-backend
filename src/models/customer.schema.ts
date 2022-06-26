@@ -92,6 +92,11 @@ const CustomerSchema = new Schema(
         default: false
     
     },
+    isFreeDelivery:{
+      type:Boolean,
+      default: false
+  
+  },
     contactNumber: {
       type: String,
       required: false,
