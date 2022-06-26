@@ -60,6 +60,7 @@ const ConnectionSchema = new Schema(
         hpOvenPricing:  {
             type: String
         }
+    },
     {
         timestamps: true
     }
