@@ -37,7 +37,7 @@ export class CustomerService extends BaseService {
     findCustomer = async (data) => {
         try {
             const { findkey, mainAadhaar, mobile, consumerNo, regNo, familyAadhaar } = data;
-            console.log("regNo",regNo)
+            console.log("regNo", regNo)
             let options = {};
             if (findkey === "mainAadhaar") {
                 options = { mainAadhaar: mainAadhaar };
@@ -97,7 +97,7 @@ export class CustomerService extends BaseService {
     };
 
 
-    lastUpdatedRecord= async (startDateISO, endDateISO) => {
+    lastUpdatedRecord = async (startDateISO, endDateISO) => {
         try {
             const result = await db.Customers.aggregate([
                 {
@@ -175,8 +175,32 @@ export class CustomerService extends BaseService {
     NewCustomer = async (agent: any) => {
         try {
             const { user } = agent;
-            const installationdata = await db.Customers.find({ mainAgent: user.name });
-            return this.RESP("success", "Fetched all customer details successfully", installationdata);
+            const installationdata2 = await db.Customers.aggregate([
+                {
+                    $match: {
+                        mainAgent:user.name
+                    },
+                },
+                {
+                    $project: {
+                        name: 1,
+                        consumerNo: 1,
+                        familyAadhaar: 1,
+                        installtatus: 1,
+                        isSingleWomen: 1,
+                        mainAadhaar: 1,
+                        mainAgent: 1,
+                        mobile: 1,
+                        registeredAgencyName: 1,
+                        remarks: 1,
+                        subAgent: 1,
+                        _id: 1,
+                        registerDate: { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } }
+                    }
+                }
+            ]
+            )
+            return this.RESP("success", "Fetched all customer details successfully", installationdata2);
         } catch (error) {
             throw error;
         }

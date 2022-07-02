@@ -193,4 +193,18 @@ export class AgentController extends BaseController {
 };
 
 
+  // reject fingerprint list
+  rejectFingerprint = async (req: Request, res: Response, next: Next) => {
+    try {
+        let result = await this.agentService.rejectFingerprint(req.body)
+        return res.send(result);
+    } catch (error) {
+        return res.status(400).json(this.ERR({
+            status: "failed",
+            message: "Unable fetch reject fingerprint list",
+            errorMessage: error.message
+        }, error));
+    }
+};
+
 }

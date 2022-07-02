@@ -283,8 +283,23 @@ export class AgentService extends BaseService {
   pendingFingerprint = async (value) => {
     try {
       const { user } = value
-      let result: any = await db.PendingFingerprint.find({ mainAgent: user.name }).exec();
+      let result: any = await db.Customers.find({ mainAgent: user.name, registrationStatus:"Fingerprint Pending" }).exec();
       return this.RESP("success", "Fetched all pending fingerprint  customer successfully", result)
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  rejectFingerprint = async (value) => {
+    try {
+      const { user } = value
+      let result: any = await db.Customers.find({ mainAgent: user.name,
+        "$or": [{
+            'registrationStatus':"Reject/Cancel"
+        }, {
+            'registrationStatus':"Reject Doc Physical Return" 
+        }]}).exec();
+      return this.RESP("success", "Fetched all Reject/Cancel  customer successfully", result)
     } catch (error) {
       throw error;
     }

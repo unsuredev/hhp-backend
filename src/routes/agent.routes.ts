@@ -18,6 +18,7 @@ export default function agentRoutes():Router {
     agentRouter.post("/agent/block", cors(),AGENT.blockAndUnblock);
     agentRouter.post("/agent/sendsms", cors(),AGENT.sendSmsToAgent);
     agentRouter.post("/agent/pendingfingerprint", cors(),AGENT.pendingFingerprint);
+    agentRouter.post("/agent/rejectfingerprint", cors(),AGENT.rejectFingerprint);
 
 
 
