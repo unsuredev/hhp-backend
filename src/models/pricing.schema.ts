@@ -20,12 +20,8 @@ const PricingSchema = new Schema(
         },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-
-
-export {
-    PricingSchema
-}
+export { PricingSchema };

@@ -14,7 +14,7 @@ const ConnectionSchema = new Schema(
     {
         agent: {
             type: String,
-            required: true ,
+            required: true,
             unique: true,
         },
         totalConnection: {
@@ -29,45 +29,40 @@ const ConnectionSchema = new Schema(
         pipe: {
             type: Number,
         },
-        totalLight:{
+        totalLight: {
             type: Number,
         },
-        paidLight:{
+        paidLight: {
             type: Number,
         },
-        bplOven:{
+        bplOven: {
             type: Number,
         },
-        nonHpOven:{
+        nonHpOven: {
             type: Number,
         },
-        hpOven:{
+        hpOven: {
             type: Number,
         },
-        totalAmount:{
+        totalAmount: {
             type: Number,
         },
-        paidAmount:{
+        paidAmount: {
             type: Number,
         },
-        remarks:
-        {
-            type: String
+        remarks: {
+            type: String,
         },
-        nonHpOvenPricing:  {
-            type: String
+        nonHpOvenPricing: {
+            type: String,
         },
-        hpOvenPricing:  {
-            type: String
-        }
+        hpOvenPricing: {
+            type: String,
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-
-
-export {
-    ConnectionSchema
-}
+export { ConnectionSchema };

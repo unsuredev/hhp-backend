@@ -36,38 +36,34 @@ const TransactionSchema = new Schema(
         remarks: {
             type: String,
         },
-        todaybalance:{
+        todaybalance: {
             type: Number,
         },
-        yesterdaybalance:{
+        yesterdaybalance: {
             type: Number,
         },
-        todayexpense:{
+        todayexpense: {
             type: Number,
         },
-        todaydue:{
+        todaydue: {
             type: Number,
         },
-        totalbalance:{
+        totalbalance: {
             type: Number,
         },
-        totaldue:{
+        totaldue: {
             type: Number,
         },
-        todayClosing:{
+        todayClosing: {
             type: Number,
         },
-        todayCashPaid:{
+        todayCashPaid: {
             type: Number,
-        }
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-
-
-export {
-    TransactionSchema
-}
+export { TransactionSchema };

@@ -12,14 +12,14 @@ const schemaOptions: SchemaOptions = {
 };
 const NCdeliverySchema = new Schema(
     {
-        agent:{
-            type:String
+        agent: {
+            type: String,
         },
-        totalConnection:{
-            type:Number
+        totalConnection: {
+            type: Number,
         },
-        installationCompletee:{
-            type:Number
+        installationCompletee: {
+            type: Number,
         },
         totalLod: {
             type: Number,
@@ -50,12 +50,8 @@ const NCdeliverySchema = new Schema(
         },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-
-
-export {
-    NCdeliverySchema
-}
+export { NCdeliverySchema };

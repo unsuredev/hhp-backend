@@ -48,12 +48,18 @@ export interface ICustomer extends Document {
     otherLetter: string;
     installStatus: string;
     registeredAgencyName: string;
-    updatedBy:string
-    installtatus:string
-    isSingleWomen:boolean
-    isFreeDelivery:boolean
-    contactNumber:string
-    registrationStatus:string
+    updatedBy: strin;
+    g;
+    installtatus: strin;
+    g;
+    isSingleWomen: boolea;
+    n;
+    isFreeDelivery: boolea;
+    n;
+    contactNumber: strin;
+    g;
+    registrationStatus: strin;
+    g;
 }
 
 export interface IOldCustomer extends Document {
@@ -194,4 +200,3 @@ export interface ITransaction extends Document {
     totalbalance: number;
     totaldue: number;
 }
-
